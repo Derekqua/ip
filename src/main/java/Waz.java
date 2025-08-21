@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Waz {
-    private static ArrayList<String> storeList = new ArrayList<>();
+    private static ArrayList<Task> storeList = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -14,12 +14,25 @@ public class Waz {
         while (true) {
             String input = scanner.nextLine();
 
-            switch (input) {
+            String[] split = input.split(" ", 2);
+            String command = split[0];
+
+            switch (command) {
                 case "bye":
                     exit();
                     return; // exits program
                 case "list":
                     displayStoreList();
+                    break;
+                case "unmark":
+                    Task unmarkTask = storeList.get(Integer.parseInt(split[1])-1);
+                    unmarkTask.markAsNotDone();
+                    horizontalLine();
+                    break;
+                case "mark":
+                    Task markTask = storeList.get(Integer.parseInt(split[1])-1);
+                    markTask.markAsDone();
+                    horizontalLine();
                     break;
                 default:
                     echo(input); // add task to store list
@@ -44,7 +57,8 @@ public class Waz {
 
     /* Level 1 */
     private static void echo(String input) {
-        storeList.add(input); // add to store
+        Task t = new Task(input);
+        storeList.add(t); // add new task to store
         horizontalLine();
         System.out.println("added: " + input);
         horizontalLine();
@@ -52,9 +66,12 @@ public class Waz {
 
     /* Level 2 */
     private static void displayStoreList() {
+        System.out.println("Here are the tasks in your list: ");
         for (int i = 0; i < storeList.size(); i++) {
             System.out.println((i + 1) + ". " + storeList.get(i));
         }
         horizontalLine();
     }
+
+    /* Level 3 */
 }
