@@ -26,8 +26,13 @@ public class Waz {
                         displayStoreList();
                         break;
                     case "unmark":
+                        if (split.length < 2 || !split[1].matches("\\d+")) {
+                            throw new WazException("OOPS! That task number doesn't exist");
+                        }
+
                         int index = Integer.parseInt(split[1])-1;
-                        if (index < 0 || index > storeList.size()) {
+
+                        if (index < 0 || index >= storeList.size()) {
                             throw new WazException("OOPS! That task number doesn't exist");
                         }
                         Task unmarkTask = storeList.get(index);
@@ -35,12 +40,31 @@ public class Waz {
                         horizontalLine();
                         break;
                     case "mark":
+                        if (split.length < 2 || !split[1].matches("\\d+")) {
+                            throw new WazException("OOPS! That task number doesn't exist");
+                        }
+
                         int index2 = Integer.parseInt(split[1])-1;
-                        if (index2 < 0 || index2 > storeList.size()) {
+                        if (index2 < 0 || index2 >= storeList.size()) {
                             throw new WazException("OOPS! That task number doesn't exist");
                         }
                         Task markTask = storeList.get(index2);
                         markTask.markAsDone();
+                        horizontalLine();
+                        break;
+                    case "delete":
+                        if (split.length < 2 || !split[1].matches("\\d+")) {
+                            throw new WazException("OOPS! That task number doesn't exist");
+                        }
+
+                        int index3 = Integer.parseInt(split[1])-1;
+                        if (index3 < 0 || index3 >= storeList.size()) {
+                            throw new WazException("OOPS! That task number doesn't exist");
+                        }
+                        Task delTask = storeList.get(index3);
+                        storeList.remove(index3);
+                        System.out.println("Noted. I've removed this task:\n" + delTask);
+                        System.out.println("Now you have " + storeList.size() + " tasks in the list.");
                         horizontalLine();
                         break;
                     default:
