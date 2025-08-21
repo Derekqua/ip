@@ -81,14 +81,14 @@ public class Waz {
         storeList.add(t); // add new task to store
 
         horizontalLine();
-        System.out.println("Got it. I've added this task: \n" + t);
+        System.out.println("Got it. I've added this task:\n" + t);
         System.out.println("Now you have " + storeList.size() + " tasks in the list.");
         horizontalLine();
     }
 
     /* Level 2 */
     private static void displayStoreList() {
-        System.out.println("Here are the tasks in your list: ");
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < storeList.size(); i++) {
             System.out.println((i + 1) + ". " + storeList.get(i));
         }
