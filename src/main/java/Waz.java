@@ -35,7 +35,7 @@ public class Waz {
                     horizontalLine();
                     break;
                 default:
-                    echo(input); // add task to store list
+                    echo(input, command); // add task to store list (todos, deadlines, events)
             }
         }
     }
@@ -56,11 +56,33 @@ public class Waz {
     }
 
     /* Level 1 */
-    private static void echo(String input) {
-        Task t = new Task(input);
+    private static void echo(String input, String command) {
+        Task t = null;
+
+        switch (command) {
+            case "todo":
+                String desc = input.split(" ",2)[1];
+                t = new Todo(desc);
+                break;
+            case "deadline":
+                String[] parts = input.split(" /by ",2);
+                t = new Deadline(parts[0].split(" ",2)[1], parts[1]); // task name, deadline by...
+                break;
+            case "event":
+                String[] event = input.split(" /from ",2);
+                String[] time = event[1].split(" /to ", 2); // from and to
+                t = new Event(event[0].split(" ",2)[1], time[0], time[1]); // task name, from, to
+                break;
+            default:
+                System.out.println("Invalid command");
+                return;
+        }
+
         storeList.add(t); // add new task to store
+
         horizontalLine();
-        System.out.println("added: " + input);
+        System.out.println("Got it. I've added this task: \n" + t);
+        System.out.println("Now you have " + storeList.size() + " tasks in the list.");
         horizontalLine();
     }
 
