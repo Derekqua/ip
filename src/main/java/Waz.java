@@ -17,58 +17,35 @@ public class Waz {
 
                 String[] split = input.split(" ", 2);
                 String command = split[0];
+                String argument = (split.length > 1) ? split[1] : "";
 
                 switch (command) {
-                    case "bye":
-                        exit();
-                        return; // exits program
-                    case "list":
-                        displayStoreList();
-                        break;
-                    case "unmark":
-                        if (split.length < 2 || !split[1].matches("\\d+")) {
-                            throw new WazException("OOPS! That task number doesn't exist");
-                        }
-
-                        int index = Integer.parseInt(split[1])-1;
-
-                        if (index < 0 || index >= storeList.size()) {
-                            throw new WazException("OOPS! That task number doesn't exist");
-                        }
-                        Task unmarkTask = storeList.get(index);
-                        unmarkTask.markAsNotDone();
-                        horizontalLine();
-                        break;
-                    case "mark":
-                        if (split.length < 2 || !split[1].matches("\\d+")) {
-                            throw new WazException("OOPS! That task number doesn't exist");
-                        }
-
-                        int index2 = Integer.parseInt(split[1])-1;
-                        if (index2 < 0 || index2 >= storeList.size()) {
-                            throw new WazException("OOPS! That task number doesn't exist");
-                        }
-                        Task markTask = storeList.get(index2);
-                        markTask.markAsDone();
-                        horizontalLine();
-                        break;
-                    case "delete":
-                        if (split.length < 2 || !split[1].matches("\\d+")) {
-                            throw new WazException("OOPS! That task number doesn't exist");
-                        }
-
-                        int index3 = Integer.parseInt(split[1])-1;
-                        if (index3 < 0 || index3 >= storeList.size()) {
-                            throw new WazException("OOPS! That task number doesn't exist");
-                        }
-                        Task delTask = storeList.get(index3);
-                        storeList.remove(index3);
-                        System.out.println("Noted. I've removed this task:\n" + delTask);
-                        System.out.println("Now you have " + storeList.size() + " tasks in the list.");
-                        horizontalLine();
-                        break;
-                    default:
-                        echo(input, command); // add task to store list (todos, deadlines, events)
+                case "bye":
+                    exit();
+                    return;
+                case "list":
+                    displayStoreList();
+                    break;
+                case "unmark":
+                    setTaskStatus(argument, false);
+                    break;
+                case "mark":
+                    setTaskStatus(argument, true);
+                    break;
+                case "delete":
+                    deleteTask(argument);
+                    break;
+                case "todo":
+                    addTask(argument, command);
+                    break;
+                case "deadline":
+                    addTask(argument, command);
+                    break;
+                case "event":
+                    addTask(argument, command);
+                    break;
+                default:
+                    throw new WazException("Invalid Command");
                 }
             } catch (WazException e) {
                 System.out.println(e.getMessage());
@@ -77,7 +54,6 @@ public class Waz {
         }
     }
 
-    /* Level 0 */
     private static void exit() {
         System.out.println("Bye. Hope to see you again soon!");
         horizontalLine();
@@ -91,65 +67,78 @@ public class Waz {
     private static void horizontalLine() {
         System.out.println("----------------------------------------------");
     }
-
-    /* Level 1 */
-    private static void echo(String input, String command) {
-        Task t = null;
-        try {
-            switch (command) {
-                case "todo":
-                    String[] parts1 = input.split(" ", 2);
-                    if (parts1.length < 2 || parts1[1].trim().isEmpty()) {
-                        throw new WazException("A todo task needs a description!");
-                    }
-                    t = new Todo(parts1[1].trim());
-                    break;
-                case "deadline":
-                    String[] parts2 = input.split(" /by ", 2);
-                    String[] descSplit = parts2[0].split(" ", 2);
-                    if (descSplit.length < 2 || descSplit[1].trim().isEmpty()) {
-                        throw new WazException("A deadline task needs a description!");
-                    }
-                    else if (parts2.length < 2 || parts2[1].trim().isEmpty()) {
-                        throw new WazException("A deadline task needs a deadline!");
-                    }
-                    t = new Deadline(descSplit[1], parts2[1]); // task name, deadline by...
-                    break;
-                case "event":
-                    String[] event = input.split(" /from ", 2);
-                    String[] eventDescSplit = event[0].split(" ", 2);
-                    if (eventDescSplit.length < 2 || eventDescSplit[1].trim().isEmpty()) {
-                        throw new WazException("A event task needs a description!");
-                    }
-
-                    if (event.length < 2) {
-                        throw new WazException("A event task must include /from and /to!");
-                    }
-
-                    String[] time = event[1].split(" /to ", 2); // from and to
-                    if (time.length < 2) {
-                        throw new WazException("A event task must include /from and /to!");
-                    }
-                    t = new Event(eventDescSplit[1], time[0], time[1]); // task name, from, to
-                    break;
-                default:
-                    throw new WazException("OOPS! I'm sorry, but I don't know what that means :-(");
-            }
-
-            storeList.add(t); // add new task to store
-
-            horizontalLine();
-            System.out.println("Got it. I've added this task:\n" + t);
-            System.out.println("Now you have " + storeList.size() + " tasks in the list.");
-            horizontalLine();
-        } catch (WazException e) {
-            System.out.println(e.getMessage());
-            horizontalLine();
+    private static Task getTaskByArgument(String argument) throws WazException {
+        if (argument.isEmpty() || !argument.matches("\\d+")) {
+            throw new WazException("OOPS! Please provide a valid task number.");
         }
 
-    }
+        int index = Integer.parseInt(argument) - 1;
+        if (index < 0 || index >= storeList.size()) {
+            throw new WazException("OOPS! That task number doesn't exist");
+        }
 
-    /* Level 2 */
+        return storeList.get(index);
+    }
+    private static void setTaskStatus(String argument, boolean isMarked) throws WazException {
+        Task task = getTaskByArgument(argument);
+        if (isMarked) {
+            task.markAsDone();
+        } else {
+            task.markAsNotDone();
+        }
+        horizontalLine();
+    }
+    private static void deleteTask(String argument) throws WazException {
+        Task delTask = getTaskByArgument(argument);
+        storeList.remove(delTask);
+        System.out.println("Noted. I've removed this task:\n" + delTask);
+        System.out.println("Now you have " + storeList.size() + " tasks in the list.");
+        horizontalLine();
+    }
+    private static Task createDeadlineTask(String argument) throws WazException {
+        String[] parts = argument.split(" /by ", 2);
+
+        if (parts[0].trim().isEmpty()) { // Check if description is empty
+            throw new WazException("A deadline task needs a description!");
+        } else if (parts.length < 2 || parts[1].trim().isEmpty()) { // Check if /by is missing or deadline is empty
+            throw new WazException("A deadline task needs a deadline!");
+        }
+
+        return new Deadline(parts[0], parts[1]); // task name, deadline by...
+    }
+    private static Task createEventTask(String argument) throws WazException {
+        String[] event = argument.split(" /from ", 2);
+        if (event.length < 2 || event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
+            throw new WazException("A event task needs a description!");
+        }
+
+        String[] time = event[1].split(" /to ", 2); // from and to
+        if (time.length < 2 || time[0].trim().isEmpty() || time[1].trim().isEmpty()) { // Check if /to is missing or description empty
+            throw new WazException("A event task must include /from and /to!");
+        }
+        return new Event(event[0], time[0], time[1]); // task name, from, to
+    }
+    private static void addTask(String argument, String taskType) throws WazException {
+        Task t = null;
+
+        if (argument.isEmpty()) {
+            throw new WazException("A " + taskType + " task needs a description!");
+        }
+
+        if (taskType.equals("todo")) {
+            t = new Todo(argument);
+        } else if (taskType.equals("deadline")) {
+            t = createDeadlineTask(argument);
+        } else {
+            t = createEventTask(argument);
+        }
+
+        storeList.add(t); // add new task to store
+        horizontalLine();
+        System.out.println("Got it. I've added this task:\n" + t);
+        System.out.println("Now you have " + storeList.size() + " tasks in the list.");
+        horizontalLine();
+    }
     private static void displayStoreList() {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < storeList.size(); i++) {
@@ -157,6 +146,4 @@ public class Waz {
         }
         horizontalLine();
     }
-
-    /* Level 3 */
 }
