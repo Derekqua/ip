@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Waz {
-    private ArrayList<Task> storeList;
+    private TaskList storeList;
     private Ui ui;
     private Storage storage;
 

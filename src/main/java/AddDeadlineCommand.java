@@ -16,7 +16,7 @@ public class AddDeadlineCommand extends Command {
      * @throws WazException if the description or deadline is missing/invalid
      */
     @Override
-    public void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException {
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         String[] parts = argument.split("/by", 2);
 
         if (parts[0].trim().isEmpty()) { // Check if description is empty
@@ -26,8 +26,8 @@ public class AddDeadlineCommand extends Command {
         }
 
         Task deadline = new Deadline(parts[0].trim(), parts[1].trim()); // task name, deadline by...
-        taskList.add(deadline);
+        taskList.addTask(deadline);
         ui.showAddedTask(deadline, taskList.size());
-        storage.saveContent(taskList);
+        storage.saveContent(taskList.getTaskList());
     }
 }

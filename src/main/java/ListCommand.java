@@ -14,7 +14,7 @@ public class ListCommand extends Command {
      * @throws WazException
      */
     @Override
-    public void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException {
-        ui.displayList(taskList);
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+        ui.displayList(taskList.getTaskList());
     }
 }

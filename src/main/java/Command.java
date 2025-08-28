@@ -7,7 +7,7 @@ public abstract class Command {
         this.argument = argument;
     }
 
-    public abstract void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException;
+    public abstract void execute(TaskList taskList, Ui ui, Storage storage) throws WazException;
 
     /**
      * Exit loop

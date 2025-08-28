@@ -21,8 +21,8 @@ public class Storage {
      *
      * @return an arraylist of Task objects read from the file waz.txt
      */
-    public ArrayList<Task> readContent() {
-        ArrayList<Task> taskList = new ArrayList<>();
+    public TaskList readContent() {
+        TaskList taskList = new TaskList();
         File file = new File(fileName);
 
         // if file is empty return empty list for now
@@ -38,7 +38,7 @@ public class Storage {
 
                 try {
                     Task task = lineToTask(line); // Convert each line into a Task object
-                    taskList.add(task);
+                    taskList.addTask(task);
                 } catch (WazException e) { // Corrupted lines
                     System.out.println((e.getMessage()));
                 }

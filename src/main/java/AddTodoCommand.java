@@ -15,13 +15,13 @@ public class AddTodoCommand extends Command {
      * @throws WazException if the description is empty
      */
     @Override
-    public void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException {
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.trim().isEmpty()) {
             throw new WazException("A todo task needs a description!");
         }
         Task todo = new Todo(argument);
-        taskList.add(todo);
+        taskList.addTask(todo);
         ui.showAddedTask(todo, taskList.size());
-        storage.saveContent(taskList);
+        storage.saveContent(taskList.getTaskList());
     }
 }

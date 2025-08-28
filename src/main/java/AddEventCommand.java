@@ -15,7 +15,7 @@ public class AddEventCommand extends Command {
      * @throws WazException if the description, /from, /to parts are missing or empty
      */
     @Override
-    public void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException {
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         String[] event = argument.split("/from", 2);
 
         if(event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
@@ -32,8 +32,8 @@ public class AddEventCommand extends Command {
         }
 
         Task deadline = new Event(event[0], time[0].trim(), time[1].trim()); // task name, from, to
-        taskList.add(deadline);
+        taskList.addTask(deadline);
         ui.showAddedTask(deadline, taskList.size());
-        storage.saveContent(taskList);
+        storage.saveContent(taskList.getTaskList());
     }
 }

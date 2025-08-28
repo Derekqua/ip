@@ -15,7 +15,7 @@ public class DeleteCommand extends Command {
      * @throws WazException if the number is not a digit or index is out of range
      */
     @Override
-    public void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException {
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.isEmpty() || !argument.matches("\\d+")) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
@@ -25,9 +25,9 @@ public class DeleteCommand extends Command {
             throw new WazException("OOPS! That task number doesn't exist");
         }
 
-        Task task =  taskList.get(index);
-        taskList.remove(task);
+        Task task =  taskList.getTask(index);
+        taskList.deleteTask(task);
         ui.showDeletedTask(task, taskList.size());
-        storage.saveContent(taskList);
+        storage.saveContent(taskList.getTaskList());
     }
 }

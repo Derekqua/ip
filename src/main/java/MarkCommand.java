@@ -16,7 +16,7 @@ public class MarkCommand extends Command {
      * @throws WazException if the index is invalid or out of range
      */
     @Override
-    public void execute(ArrayList<Task> taskList, Ui ui, Storage storage) throws WazException {
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.isEmpty() || !argument.matches("\\d+")) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
@@ -26,9 +26,9 @@ public class MarkCommand extends Command {
             throw new WazException("OOPS! That task number doesn't exist");
         }
 
-        Task task =  taskList.get(index);
+        Task task =  taskList.getTask(index);
         task.markAsDone();
         ui.showMarkTask(task);
-        storage.saveContent(taskList);
+        storage.saveContent(taskList.getTaskList());
     }
 }
