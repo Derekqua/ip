@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Waz {
-    private static ArrayList<Task> storeList = new ArrayList<>();
+    private static ArrayList<Task> storeList = Storage.readContent();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -28,21 +28,27 @@ public class Waz {
                     break;
                 case "unmark":
                     setTaskStatus(argument, false);
+                    Storage.saveContent(storeList);
                     break;
                 case "mark":
                     setTaskStatus(argument, true);
+                    Storage.saveContent(storeList);
                     break;
                 case "delete":
                     deleteTask(argument);
+                    Storage.saveContent(storeList);
                     break;
                 case "todo":
                     addTask(argument, command);
+                    Storage.saveContent(storeList);
                     break;
                 case "deadline":
                     addTask(argument, command);
+                    Storage.saveContent(storeList);
                     break;
                 case "event":
                     addTask(argument, command);
+                    Storage.saveContent(storeList);
                     break;
                 default:
                     throw new WazException("Invalid Command");
@@ -112,8 +118,12 @@ public class Waz {
         Task task = getTaskByArgument(argument);
         if (isMarked) {
             task.markAsDone();
+            System.out.println("Nice! I've marked this task as done:");
+            System.out.println(task);
         } else {
             task.markAsNotDone();
+            System.out.println("OK, I've marked this task as not done yet:");
+            System.out.println(task);
         }
         horizontalLine();
     }
@@ -149,7 +159,7 @@ public class Waz {
             throw new WazException("A deadline task needs a deadline!");
         }
 
-        return new Deadline(parts[0], parts[1]); // task name, deadline by...
+        return new Deadline(parts[0].trim(), parts[1].trim()); // task name, deadline by...
     }
 
     /**
@@ -176,7 +186,7 @@ public class Waz {
             throw new WazException("A event task must include /from and /to!");
         }
         
-        return new Event(event[0], time[0], time[1]); // task name, from, to
+        return new Event(event[0], time[0].trim(), time[1].trim()); // task name, from, to
     }
 
     /**
