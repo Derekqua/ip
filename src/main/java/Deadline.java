@@ -16,6 +16,10 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Format the Task object into String to be saved in the file
+     * @return a formatted Task string
+     */
     @Override
     public String toDataString() {
         return "D | " + (isDone ? "1" : "0") + " | " + description + " | " +
