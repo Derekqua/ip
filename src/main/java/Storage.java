@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Storage {
-    private static final String fileName = "waz.txt";
+    private final String fileName = "waz.txt";
 
     /**
      * Read the content of the file line by line and convert each line into a Task object
@@ -21,7 +21,7 @@ public class Storage {
      *
      * @return an arraylist of Task objects read from the file waz.txt
      */
-    public static ArrayList<Task> readContent() {
+    public ArrayList<Task> readContent() {
         ArrayList<Task> taskList = new ArrayList<>();
         File file = new File(fileName);
 
@@ -67,7 +67,7 @@ public class Storage {
      * @return the corresponding Task object (Todo, Deadline, Event)
      * @throws WazException if the line is corrupted or any unknown task type
      */
-    private static Task lineToTask(String line) throws WazException{
+    private Task lineToTask(String line) throws WazException{
         String[] parts = line.split("\\| ");
 
         if (parts.length < 3) {
@@ -144,7 +144,7 @@ public class Storage {
      *
      * @param taskList the list of tasks to save
      */
-    public static void saveContent(ArrayList<Task> taskList) {
+    public void saveContent(ArrayList<Task> taskList) {
         try (FileWriter fw = new FileWriter(fileName)) {
             for (Task task: taskList) {
                 // Convert each task into string/line and add to the next line

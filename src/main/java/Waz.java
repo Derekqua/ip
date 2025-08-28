@@ -4,10 +4,13 @@ import java.util.Scanner;
 public class Waz {
     private ArrayList<Task> storeList;
     private Ui ui;
+    private Storage storage;
 
     public Waz() {
         ui = new Ui();
-        storeList = Storage.readContent();
+        storage = new Storage();
+        
+        storeList = storage.readContent();
     }
 
     public void run() {
@@ -34,27 +37,27 @@ public class Waz {
                         break;
                     case "unmark":
                         setTaskStatus(argument, false);
-                        Storage.saveContent(storeList);
+                        storage.saveContent(storeList);
                         break;
                     case "mark":
                         setTaskStatus(argument, true);
-                        Storage.saveContent(storeList);
+                        storage.saveContent(storeList);
                         break;
                     case "delete":
                         deleteTask(argument);
-                        Storage.saveContent(storeList);
+                        storage.saveContent(storeList);
                         break;
                     case "todo":
                         addTask(argument, command);
-                        Storage.saveContent(storeList);
+                        storage.saveContent(storeList);
                         break;
                     case "deadline":
                         addTask(argument, command);
-                        Storage.saveContent(storeList);
+                        storage.saveContent(storeList);
                         break;
                     case "event":
                         addTask(argument, command);
-                        Storage.saveContent(storeList);
+                        storage.saveContent(storeList);
                         break;
                     default:
                         throw new WazException("Invalid Command");
