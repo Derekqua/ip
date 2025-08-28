@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Waz {
-    private static ArrayList<Task> storeList = new ArrayList<>();
+    private static ArrayList<Task> storeList = Storage.readContent();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -112,8 +112,12 @@ public class Waz {
         Task task = getTaskByArgument(argument);
         if (isMarked) {
             task.markAsDone();
+            System.out.println("Nice! I've marked this task as done:");
+            System.out.println(task);
         } else {
             task.markAsNotDone();
+            System.out.println("OK, I've marked this task as not done yet:");
+            System.out.println(task);
         }
         horizontalLine();
     }
