@@ -9,6 +9,10 @@ public class Event extends Task {
         this.to = to;
     }
 
+    /**
+     * Format the Task object into String to be saved in the file
+     * @return a formatted Task string
+     */
     @Override
     public String toDataString() {
 
