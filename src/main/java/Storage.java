@@ -1,6 +1,8 @@
 import jdk.management.jfr.EventTypeInfo;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.io.File;
@@ -32,7 +34,7 @@ public class Storage {
                 String line = scanner.nextLine();
 
                 try {
-                    Task task = convertTask(line); // Convert each line into a Task object
+                    Task task = lineToTask(line); // Convert each line into a Task object
                     taskList.add(task);
                 } catch (WazException e) { // Corrupted lines
                     System.out.println((e.getMessage()));
@@ -62,7 +64,7 @@ public class Storage {
      * @return the corresponding Task object (Todo, Deadline, Event)
      * @throws WazException if the line is corrupted or any unknown task type
      */
-    private static Task convertTask(String line) throws WazException{
+    private static Task lineToTask(String line) throws WazException{
         String[] parts = line.split("\\| ");
 
         if (parts.length < 3) {
@@ -120,5 +122,34 @@ public class Storage {
             throw new WazException("Line is corrupted. Unknown task type.");
         }
 
+    }
+
+    /**
+     * Save the current list of tasks to a file
+     *
+     * Each task in the list is converted to a string representation using toDataString() from the Task class.
+     * The file is overwritten everytime the task list is edited to ensure the state of the state of the task list.
+     *
+     * Example of file content:
+     * <p>
+     *     <ul>
+     *         <li>T | 1 | read book</li>
+     *         <li>D | 0 | return book | June 6th</li>
+     *         <li>E | 0 | project meeting | Aug 6th 2-4pm</li>
+     *     </ul>
+     * </p>
+     *
+     * @param taskList the list of tasks to save
+     */
+    public static void saveContent(ArrayList<Task> taskList) {
+        try (FileWriter fw = new FileWriter(fileName)) {
+            for (Task task: taskList) {
+                // Convert each task into string/line and add to the next line
+                fw.write(task.toDataString() + System.lineSeparator());
+            }
+            System.out.println("Task saved successfully.");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
