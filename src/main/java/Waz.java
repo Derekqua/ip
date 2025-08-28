@@ -2,13 +2,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Waz {
-    private static ArrayList<Task> storeList = Storage.readContent();
+    private ArrayList<Task> storeList;
+    private Ui ui;
 
-    public static void main(String[] args) {
+    public Waz() {
+        ui = new Ui();
+        storeList = Storage.readContent();
+    }
+
+    public void run() {
         Scanner scanner = new Scanner(System.in);
 
         // Greet User
-        greet();
+        ui.greet();
 
         // Loop
         while (true) {
@@ -20,71 +26,50 @@ public class Waz {
                 String argument = (split.length > 1) ? split[1] : "";
 
                 switch (command) {
-                case "bye":
-                    exit();
-                    return;
-                case "list":
-                    displayStoreList();
-                    break;
-                case "unmark":
-                    setTaskStatus(argument, false);
-                    Storage.saveContent(storeList);
-                    break;
-                case "mark":
-                    setTaskStatus(argument, true);
-                    Storage.saveContent(storeList);
-                    break;
-                case "delete":
-                    deleteTask(argument);
-                    Storage.saveContent(storeList);
-                    break;
-                case "todo":
-                    addTask(argument, command);
-                    Storage.saveContent(storeList);
-                    break;
-                case "deadline":
-                    addTask(argument, command);
-                    Storage.saveContent(storeList);
-                    break;
-                case "event":
-                    addTask(argument, command);
-                    Storage.saveContent(storeList);
-                    break;
-                default:
-                    throw new WazException("Invalid Command");
+                    case "bye":
+                        ui.exit();
+                        return;
+                    case "list":
+                        displayStoreList();
+                        break;
+                    case "unmark":
+                        setTaskStatus(argument, false);
+                        Storage.saveContent(storeList);
+                        break;
+                    case "mark":
+                        setTaskStatus(argument, true);
+                        Storage.saveContent(storeList);
+                        break;
+                    case "delete":
+                        deleteTask(argument);
+                        Storage.saveContent(storeList);
+                        break;
+                    case "todo":
+                        addTask(argument, command);
+                        Storage.saveContent(storeList);
+                        break;
+                    case "deadline":
+                        addTask(argument, command);
+                        Storage.saveContent(storeList);
+                        break;
+                    case "event":
+                        addTask(argument, command);
+                        Storage.saveContent(storeList);
+                        break;
+                    default:
+                        throw new WazException("Invalid Command");
                 }
             } catch (WazException e) {
                 System.out.println(e.getMessage());
-                horizontalLine();
+                ui.horizontalLine();
             }
         }
-    }
 
-    /**
-     * Prints a goodbye message and a horizontal line.
-     * This method is called when the program is exiting.
-     */
-    private static void exit() {
-        System.out.println("Bye. Hope to see you again soon!");
-        horizontalLine();
     }
+    public static void main(String[] args) {
+        new Waz().run();
 
-    /**
-     * Prints a greeting message and a horizontal line.
-     * This method is called when the program starts.
-     */
-    private static void greet() {
-        horizontalLine();
-        System.out.println("Hello! I'm Waz");
-        System.out.println("What can I do for you?");
-        horizontalLine();
-    }
 
-    /**
-     * Prints a horizontal line used to format the chatbot output.
-     */
-    private static void horizontalLine() {
-        System.out.println("----------------------------------------------");
     }
 
     /**
@@ -94,7 +79,7 @@ public class Waz {
      * @return the corresponding Task from the list
      * @throws WazException if the argument is empty, not a number or out of bound
      */
-    private static Task getTaskByArgument(String argument) throws WazException {
+    private Task getTaskByArgument(String argument) throws WazException {
         if (argument.isEmpty() || !argument.matches("\\d+")) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
@@ -114,7 +99,7 @@ public class Waz {
      * @param isMarked true to mark, false to unmark
      * @throws WazException if the argument is invalid
      */
-    private static void setTaskStatus(String argument, boolean isMarked) throws WazException {
+    private void setTaskStatus(String argument, boolean isMarked) throws WazException {
         Task task = getTaskByArgument(argument);
         if (isMarked) {
             task.markAsDone();
@@ -125,7 +110,7 @@ public class Waz {
             System.out.println("OK, I've marked this task as not done yet:");
             System.out.println(task);
         }
-        horizontalLine();
+        ui.horizontalLine();
     }
 
     /**
@@ -134,12 +119,12 @@ public class Waz {
      * @param argument the task number as a String (1-based index)
      * @throws WazException if the argument is invalid
      */
-    private static void deleteTask(String argument) throws WazException {
+    private void deleteTask(String argument) throws WazException {
         Task delTask = getTaskByArgument(argument);
         storeList.remove(delTask);
         System.out.println("Noted. I've removed this task:\n" + delTask);
         System.out.println("Now you have " + storeList.size() + " tasks in the list.");
-        horizontalLine();
+        ui.horizontalLine();
     }
 
     /**
@@ -150,7 +135,7 @@ public class Waz {
      * @return a new Deadline Task
      * @throws WazException if the description or deadline is missing/invalid
      */
-    private static Task createDeadlineTask(String argument) throws WazException {
+    private Task createDeadlineTask(String argument) throws WazException {
         String[] parts = argument.split("/by", 2);
 
         if (parts[0].trim().isEmpty()) { // Check if description is empty
@@ -170,7 +155,7 @@ public class Waz {
      * @return a new Event task
      * @throws WazException if the description, /from, /to parts are missing or empty
      */
-    private static Task createEventTask(String argument) throws WazException {
+    private Task createEventTask(String argument) throws WazException {
         String[] event = argument.split("/from", 2);
 
         if(event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
@@ -197,7 +182,7 @@ public class Waz {
      * @param taskType the type of task ("todo", "deadline", "event)
      * @throws WazException if the input is invalid
      */
-    private static void addTask(String argument, String taskType) throws WazException {
+    private void addTask(String argument, String taskType) throws WazException {
         Task t = null;
 
         if (argument.trim().isEmpty()) {
@@ -213,20 +198,20 @@ public class Waz {
         }
 
         storeList.add(t); // add new task to store
-        horizontalLine();
+        ui.horizontalLine();
         System.out.println("Got it. I've added this task:\n" + t);
         System.out.println("Now you have " + storeList.size() + " tasks in the list.");
-        horizontalLine();
+        ui.horizontalLine();
     }
 
     /**
      * Displays all tasks currently in the store list
      */
-    private static void displayStoreList() {
+    private void displayStoreList() {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < storeList.size(); i++) {
             System.out.println((i + 1) + ". " + storeList.get(i));
         }
-        horizontalLine();
+        ui.horizontalLine();
     }
 }
