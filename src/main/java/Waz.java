@@ -96,7 +96,7 @@ public class Waz {
         horizontalLine();
     }
     private static Task createDeadlineTask(String argument) throws WazException {
-        String[] parts = argument.split(" /by ", 2);
+        String[] parts = argument.split("/by", 2);
 
         if (parts[0].trim().isEmpty()) { // Check if description is empty
             throw new WazException("A deadline task needs a description!");
@@ -107,12 +107,15 @@ public class Waz {
         return new Deadline(parts[0], parts[1]); // task name, deadline by...
     }
     private static Task createEventTask(String argument) throws WazException {
-        String[] event = argument.split(" /from ", 2);
-        if (event.length < 2 || event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
+        String[] event = argument.split("/from", 2);
+
+        if(event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
             throw new WazException("A event task needs a description!");
+        } else if (event.length < 2) {
+            throw new WazException("A event task must include /from and /to!");
         }
 
-        String[] time = event[1].split(" /to ", 2); // from and to
+        String[] time = event[1].split("/to", 2); // from and to
         if (time.length < 2 || time[0].trim().isEmpty() || time[1].trim().isEmpty()) { // Check if /to is missing or description empty
             throw new WazException("A event task must include /from and /to!");
         }
@@ -121,7 +124,7 @@ public class Waz {
     private static void addTask(String argument, String taskType) throws WazException {
         Task t = null;
 
-        if (argument.isEmpty()) {
+        if (argument.trim().isEmpty()) {
             throw new WazException("A " + taskType + " task needs a description!");
         }
 
