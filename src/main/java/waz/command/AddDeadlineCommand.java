@@ -1,4 +1,11 @@
-import java.util.ArrayList;
+package waz.command;
+
+import waz.task.TaskList;
+import waz.task.Task;
+import waz.task.Deadline;
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
 public class AddDeadlineCommand extends Command {
 
@@ -7,7 +14,7 @@ public class AddDeadlineCommand extends Command {
     }
 
     /**
-     * Creates and adds a Deadline Task into the task list
+     * Creates and adds a waz.task.Deadline waz.task.Task into the task list
      * Update the task list into the file
      *
      * @param taskList the list of task

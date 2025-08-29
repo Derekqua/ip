@@ -1,4 +1,12 @@
-import java.util.ArrayList;
+package waz;
+
+import waz.ui.Ui;
+import waz.parser.Parser;
+import waz.storage.Storage;
+import waz.task.TaskList;
+import waz.command.Command;
+import waz.exception.WazException;
+
 import java.util.Scanner;
 
 public class Waz {
@@ -26,7 +34,7 @@ public class Waz {
                 Command command = Parser.parse(input);
                 command.execute(storeList, ui, storage);
 
-                isExit = command.isExit(); // breaks loop if ExitCommand else false
+                isExit = command.isExit(); // breaks loop if waz.command.ExitCommand else false
             } catch (WazException e) {
                 ui.showErrorMsg(e);
             }

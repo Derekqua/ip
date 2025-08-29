@@ -1,18 +1,24 @@
-import java.util.ArrayList;
+package waz.command;
 
-public class UnmarkCommand extends Command {
+import waz.task.TaskList;
+import waz.task.Task;
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
-    public UnmarkCommand(String argument) {
+public class DeleteCommand extends Command {
+
+    public DeleteCommand(String argument) {
         super(argument);
     }
 
     /**
-     * Unmarks the task in the task list based on argument (index)
+     * Delete task from the task list based on the argument (index)
      *
      * @param taskList the list of task
      * @param ui
      * @param storage
-     * @throws WazException if the index is invalid or out of range
+     * @throws WazException if the number is not a digit or index is out of range
      */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
@@ -26,8 +32,8 @@ public class UnmarkCommand extends Command {
         }
 
         Task task =  taskList.getTask(index);
-        task.markAsNotDone();
-        ui.showUnmarkTask(task);
+        taskList.deleteTask(task);
+        ui.showDeletedTask(task, taskList.size());
         storage.saveContent(taskList.getTaskList());
     }
 }

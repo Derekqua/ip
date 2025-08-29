@@ -1,4 +1,8 @@
-import java.util.ArrayList;
+package waz.command;
+
+import waz.task.TaskList;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
 public class ExitCommand extends Command{
     public ExitCommand() {

@@ -1,4 +1,11 @@
-import java.util.ArrayList;
+package waz.command;
+
+import waz.task.TaskList;
+import waz.task.Task;
+import waz.task.Event;
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
 public class AddEventCommand extends Command {
 
@@ -7,7 +14,7 @@ public class AddEventCommand extends Command {
     }
 
     /**
-     * Creates and add an Event task into the task list
+     * Creates and add an waz.task.Event task into the task list
      * Update the task list into the file
      * @param taskList the list of task
      * @param ui
