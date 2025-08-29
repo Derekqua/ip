@@ -1,3 +1,5 @@
+package waz.task;
+
 import java.util.ArrayList;
 
 public class TaskList {
@@ -15,7 +17,7 @@ public class TaskList {
     /**
      * Adds a task to the list.
      *
-     * @param task the Task to add
+     * @param task the waz.task.Task to add
      */
     public void addTask(Task task) {
         taskList.add(task);
@@ -24,8 +26,8 @@ public class TaskList {
     /**
      * Removes a task from the list by task object.
      *
-     * @param task the Task object to be deleted
-     * @return the removed Task
+     * @param task the waz.task.Task object to be deleted
+     * @return the removed waz.task.Task
      */
     public boolean deleteTask(Task task) {
         return taskList.remove(task);
@@ -35,7 +37,7 @@ public class TaskList {
      * Retrieves a task by its index.
      *
      * @param index the 0-based index of the task
-     * @return the Task at the given index
+     * @return the waz.task.Task at the given index
      */
     public Task getTask(int index) {
         return taskList.get(index);

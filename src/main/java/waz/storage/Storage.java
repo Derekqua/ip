@@ -1,12 +1,11 @@
-import jdk.management.jfr.EventTypeInfo;
+package waz.storage;
+
+import waz.task.*;
+import waz.exception.WazException;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
@@ -15,11 +14,11 @@ public class Storage {
     private final String fileName = "waz.txt";
 
     /**
-     * Read the content of the file line by line and convert each line into a Task object
+     * Read the content of the file line by line and convert each line into a waz.task.Task object
      * Corrupted lines will be skipped with a warning printed.
      * If file does not exist, an empty task list is returned.
      *
-     * @return an arraylist of Task objects read from the file waz.txt
+     * @return an arraylist of waz.task.Task objects read from the file waz.txt
      */
     public TaskList readContent() {
         TaskList taskList = new TaskList();
@@ -37,7 +36,7 @@ public class Storage {
                 String line = scanner.nextLine();
 
                 try {
-                    Task task = lineToTask(line); // Convert each line into a Task object
+                    Task task = lineToTask(line); // Convert each line into a waz.task.Task object
                     taskList.addTask(task);
                 } catch (WazException e) { // Corrupted lines
                     System.out.println((e.getMessage()));
@@ -52,7 +51,7 @@ public class Storage {
     }
 
     /**
-     * Converts a line from the file into a Task Object
+     * Converts a line from the file into a waz.task.Task Object
      * <p>
      *   <ul>
      *       <li>T | 1 | read book</li>
@@ -61,13 +60,13 @@ public class Storage {
      *   </ul>
      * </p>
      *
-     * For Event tasks, if the "/from" field does not contain "am" or "pm", it will be automatically appended.
+     * For waz.task.Event tasks, if the "/from" field does not contain "am" or "pm", it will be automatically appended.
      *
-     * @param line each string line from the file represents a Task
-     * @return the corresponding Task object (Todo, Deadline, Event)
+     * @param line each string line from the file represents a waz.task.Task
+     * @return the corresponding waz.task.Task object (waz.task.Todo, waz.task.Deadline, waz.task.Event)
      * @throws WazException if the line is corrupted or any unknown task type
      */
-    private Task lineToTask(String line) throws WazException{
+    private Task lineToTask(String line) throws WazException {
         String[] parts = line.split("\\| ");
 
         if (parts.length < 3) {
@@ -130,7 +129,7 @@ public class Storage {
     /**
      * Save the current list of tasks to a file
      *
-     * Each task in the list is converted to a string representation using toDataString() from the Task class.
+     * Each task in the list is converted to a string representation using toDataString() from the waz.task.Task class.
      * The file is overwritten everytime the task list is edited to ensure the state of the state of the task list.
      *
      * Example of file content:
@@ -150,7 +149,7 @@ public class Storage {
                 // Convert each task into string/line and add to the next line
                 fw.write(task.toDataString() + System.lineSeparator());
             }
-            System.out.println("Task saved successfully.");
+            System.out.println("waz.task.Task saved successfully.");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

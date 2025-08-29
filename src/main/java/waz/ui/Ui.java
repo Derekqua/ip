@@ -1,3 +1,7 @@
+package waz.ui;
+
+import waz.task.Task;
+import waz.exception.WazException;
 import java.util.ArrayList;
 
 public class Ui {
@@ -17,7 +21,7 @@ public class Ui {
      */
     public void greet() {
         horizontalLine();
-        System.out.println("Hello! I'm Waz");
+        System.out.println("Hello! I'm waz.Waz");
         System.out.println("What can I do for you?");
         horizontalLine();
     }

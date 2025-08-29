@@ -1,18 +1,25 @@
-import java.util.ArrayList;
+package waz.command;
 
-public class DeleteCommand extends Command {
+import waz.task.TaskList;
+import waz.task.Task;
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
-    public DeleteCommand(String argument) {
+public class MarkCommand extends Command {
+
+    public MarkCommand(String argument) {
         super(argument);
     }
 
+
     /**
-     * Delete task from the task list based on the argument (index)
+     * Marks the task in the task list based on argument (index)
      *
      * @param taskList the list of task
      * @param ui
      * @param storage
-     * @throws WazException if the number is not a digit or index is out of range
+     * @throws WazException if the index is invalid or out of range
      */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
@@ -26,8 +33,8 @@ public class DeleteCommand extends Command {
         }
 
         Task task =  taskList.getTask(index);
-        taskList.deleteTask(task);
-        ui.showDeletedTask(task, taskList.size());
+        task.markAsDone();
+        ui.showMarkTask(task);
         storage.saveContent(taskList.getTaskList());
     }
 }

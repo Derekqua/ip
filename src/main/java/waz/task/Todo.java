@@ -1,3 +1,5 @@
+package waz.task;
+
 public class Todo extends Task {
 
     public Todo(String description) {
@@ -5,8 +7,8 @@ public class Todo extends Task {
     }
 
     /**
-     * Format the Task object into String to be saved in the file
-     * @return a formatted Task string
+     * Format the waz.task.Task object into String to be saved in the file
+     * @return a formatted waz.task.Task string
      */
     @Override
     public String toDataString() {

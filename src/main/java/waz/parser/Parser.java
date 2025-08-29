@@ -1,9 +1,14 @@
+package waz.parser;
+
+import waz.command.*;
+import waz.exception.WazException;
+
 public class Parser {
 
     /**
-     * Parses the user's input string and returns the Command object
+     * Parses the user's input string and returns the waz.command.Command object
      * @param input the raw string entered by the user
-     * @return a Command object based on the user input
+     * @return a waz.command.Command object based on the user input
      * @throws WazException if the input does not match any valid command
      */
     public static Command parse(String input) throws WazException {
@@ -29,7 +34,7 @@ public class Parser {
             case "event":
                 return new AddEventCommand(argument);
             default:
-                throw new WazException("Invalid Command");
+                throw new WazException("Invalid waz.command.Command");
         }
     }
 }

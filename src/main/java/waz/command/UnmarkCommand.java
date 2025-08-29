@@ -1,14 +1,19 @@
-import java.util.ArrayList;
+package waz.command;
 
-public class MarkCommand extends Command {
+import waz.task.TaskList;
+import waz.task.Task;
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
-    public MarkCommand(String argument) {
+public class UnmarkCommand extends Command {
+
+    public UnmarkCommand(String argument) {
         super(argument);
     }
 
-
     /**
-     * Marks the task in the task list based on argument (index)
+     * Unmarks the task in the task list based on argument (index)
      *
      * @param taskList the list of task
      * @param ui
@@ -27,8 +32,8 @@ public class MarkCommand extends Command {
         }
 
         Task task =  taskList.getTask(index);
-        task.markAsDone();
-        ui.showMarkTask(task);
+        task.markAsNotDone();
+        ui.showUnmarkTask(task);
         storage.saveContent(taskList.getTaskList());
     }
 }

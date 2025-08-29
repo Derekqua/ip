@@ -1,4 +1,11 @@
-import java.util.ArrayList;
+package waz.command;
+
+import waz.task.TaskList;
+import waz.task.Task;
+import waz.task.Todo;
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.ui.Ui;
 
 public class AddTodoCommand extends Command {
 
@@ -7,7 +14,7 @@ public class AddTodoCommand extends Command {
     }
 
     /**
-     * Creates and add a Todo task into the task list
+     * Creates and add a waz.task.Todo task into the task list
      * Update the task list into the file
      * @param taskList the list of task
      * @param ui
