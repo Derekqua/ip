@@ -38,7 +38,7 @@ public class AddEventCommand extends Command {
             throw new WazException("A event task must include /from and /to!");
         }
 
-        Task deadline = new Event(event[0], time[0].trim(), time[1].trim()); // task name, from, to
+        Task deadline = new Event(event[0].trim(), time[0].trim(), time[1].trim()); // task name, from, to
         taskList.addTask(deadline);
         ui.showAddedTask(deadline, taskList.size());
         storage.saveContent(taskList.getTaskList());

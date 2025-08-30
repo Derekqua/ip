@@ -11,7 +11,11 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Storage {
-    private final String fileName = "waz.txt";
+    private String fileName;
+
+    public Storage(String fileName) {
+        this.fileName = fileName;
+    }
 
     /**
      * Read the content of the file line by line and convert each line into a waz.task.Task object

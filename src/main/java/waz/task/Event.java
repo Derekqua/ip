@@ -17,7 +17,6 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-
         return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from.substring(0, from.length() - 2) +
                 "-" + to;
     }
