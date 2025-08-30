@@ -80,14 +80,16 @@ public class Ui {
     }
 
     /**
-     * Displays all tasks currently in the store list
+     * Displays all tasks currently in the task list. if task list is isMatch, display matching task message.
+     * Otherwise, default task message.
      */
-<<<<<<< HEAD
-    public void showTaskList(ArrayList<Task> taskList) {
-=======
-    public void displayList(TaskList taskList) {
->>>>>>> branch-Level-9
-        System.out.println("Here are the tasks in your list:");
+    public void showTaskList(TaskList taskList, boolean isMatch) {
+        if (isMatch) {
+            System.out.println("Here are the matching tasks in your list:");
+        } else{
+            System.out.println("Here are the tasks in your list:");
+        }
+
         for (int i = 0; i < taskList.size(); i++) {
             System.out.println((i + 1) + ". " + taskList.getTask(i));
         }

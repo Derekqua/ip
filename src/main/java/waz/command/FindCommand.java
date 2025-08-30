@@ -48,7 +48,7 @@ public class FindCommand extends Command{
         if (matchingTasks.getTaskList().isEmpty()) { // No matching task found
             System.out.println("No tasks found matching: " + keyword);
         } else { // matching task found, display list of task related to keyword
-            ui.displayList(matchingTasks);
+            ui.showTaskList(matchingTasks, true);
         }
     }
 }
