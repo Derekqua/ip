@@ -1,0 +1,13 @@
+list
+todo buy Notebook
+deadline complete tutorial /by 2020-12-12 1800
+event gaming party /from Mon 2pm /to 8pm
+list
+mark 1
+mark 2
+mark 3
+unmark 3
+list
+deadline what is this
+event command wrong hoho
+bye
