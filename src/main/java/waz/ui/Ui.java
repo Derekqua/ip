@@ -2,6 +2,8 @@ package waz.ui;
 
 import waz.task.Task;
 import waz.exception.WazException;
+import waz.task.TaskList;
+
 import java.util.ArrayList;
 
 /**
@@ -80,10 +82,14 @@ public class Ui {
     /**
      * Displays all tasks currently in the store list
      */
+<<<<<<< HEAD
     public void showTaskList(ArrayList<Task> taskList) {
+=======
+    public void displayList(TaskList taskList) {
+>>>>>>> branch-Level-9
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskList.size(); i++) {
-            System.out.println((i + 1) + ". " + taskList.get(i));
+            System.out.println((i + 1) + ". " + taskList.getTask(i));
         }
         showHorizontalLine();
     }
