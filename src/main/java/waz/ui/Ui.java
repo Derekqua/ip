@@ -10,26 +10,26 @@ public class Ui {
      * Prints a goodbye message and a horizontal line.
      * This method is called when the program is exiting.
      */
-    public void exit() {
+    public void showExitMessage() {
         System.out.println("Bye. Hope to see you again soon!");
-        horizontalLine();
+        showHorizontalLine();
     }
 
     /**
      * Prints a greeting message and a horizontal line.
      * This method is called when the program starts.
      */
-    public void greet() {
-        horizontalLine();
+    public void showGreetMessage() {
+        showHorizontalLine();
         System.out.println("Hello! I'm waz.Waz");
         System.out.println("What can I do for you?");
-        horizontalLine();
+        showHorizontalLine();
     }
 
     /**
      * Prints a horizontal line used to format the chatbot output.
      */
-    public void horizontalLine() {
+    public void showHorizontalLine() {
         System.out.println("----------------------------------------------");
     }
 
@@ -38,17 +38,17 @@ public class Ui {
      */
     public void showErrorMsg(WazException e) {
         System.out.println(e.getMessage());
-        horizontalLine();
+        showHorizontalLine();
     }
 
     /**
      * Prints a confirmation message that a task has been added into the list
      */
     public void showAddedTask(Task task, int size) {
-        horizontalLine();
+        showHorizontalLine();
         System.out.println("Got it. I've added this task:\n" + task);
         System.out.println("Now you have " + size + " tasks in the list.");
-        horizontalLine();
+        showHorizontalLine();
     }
 
     /**
@@ -57,7 +57,7 @@ public class Ui {
     public void showDeletedTask(Task task, int size) {
         System.out.println("Noted. I've removed this task:\n" + task);
         System.out.println("Now you have " + size + " tasks in the list.");
-        horizontalLine();
+        showHorizontalLine();
     }
 
 
@@ -65,12 +65,12 @@ public class Ui {
     /**
      * Displays all tasks currently in the store list
      */
-    public void displayList(ArrayList<Task> taskList) {
+    public void showTaskList(ArrayList<Task> taskList) {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskList.size(); i++) {
             System.out.println((i + 1) + ". " + taskList.get(i));
         }
-        horizontalLine();
+        showHorizontalLine();
     }
 
     /**
