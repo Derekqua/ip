@@ -3,12 +3,34 @@ package waz.parser;
 import waz.command.*;
 import waz.exception.WazException;
 
+/**
+ * The {@code Parse} class is responsible for converting raw user input string into the corresponding {@code Command}
+ * objects that can be executed.
+ * <p>Example usage:</p>
+ * <pre>
+ * Command cmd = Parser.parse("todo read book");
+ * cmd.execute(taskList, ui, storage);
+ * </pre>
+ */
 public class Parser {
 
     /**
-     * Parses the user's input string and returns the waz.command.Command object
+     * Parses the user's input string and returns the {@code Command} object
+     *
+     * <p>Supported commands:</p>
+     * <ul>
+     *     <li>bye → {@code ExitCommand}</li>
+     *     <li>list → {@code ListCommand}</li>
+     *     <li>unmark → {@code UnmarkCommand}</li>
+     *     <li>mark → {@code MarkCommand}</li>
+     *     <li>delete → {@code DeleteCommand}</li>
+     *     <li>todo → {@code AddTodoCommand}</li>
+     *     <li>deadline → {@code AddDeadlineCommand}</li>
+     *     <li>event → {@code AddEventCommand}</li>
+     * </ul>
+     *
      * @param input the raw string entered by the user
-     * @return a waz.command.Command object based on the user input
+     * @return the appropriate {@code Command} object based on the user input
      * @throws WazException if the input does not match any valid command
      */
     public static Command parse(String input) throws WazException {

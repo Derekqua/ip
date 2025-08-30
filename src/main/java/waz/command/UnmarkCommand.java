@@ -6,18 +6,29 @@ import waz.exception.WazException;
 import waz.storage.Storage;
 import waz.ui.Ui;
 
+/**
+ * Represents a command that marks a task as not done
+ * <p>
+ * This command takes an index argument referring to the task in the task list,
+ * and updates the task's status to "not done". It also updates the storage
+ * and prints a confirmation message via the {@link Ui} class.
+ * </p>
+ */
 public class UnmarkCommand extends Command {
-
+    /**
+     * Constructs an UnmarkCommand with the given argument
+     * @param argument the index of the task to be unmarked, as a string
+     */
     public UnmarkCommand(String argument) {
         super(argument);
     }
 
     /**
-     * Unmarks the task in the task list based on argument (index)
+     * Executes the command to unmark a task in the task list
      *
      * @param taskList the list of task
-     * @param ui
-     * @param storage
+     * @param ui the Ui to display messages
+     * @param storage the storage for saving tasks
      * @throws WazException if the index is invalid or out of range
      */
     @Override
