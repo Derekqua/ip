@@ -1,20 +1,35 @@
 package waz.task;
 
+/**
+ * <p>
+ * A Todo is a type of {@link Task} that only has a description and
+ * a completion status. It does not have a specific date or time.
+ * </p>
+ *
+ */
 public class Todo extends Task {
 
+    /**
+     * Constructs a new too with the given description
+     * @param description the description of the task
+     */
     public Todo(String description) {
         super(description);
     }
 
     /**
-     * Format the waz.task.Task object into String to be saved in the file
-     * @return a formatted waz.task.Task string
+     * Format ToDo task into String to be saved in the file
+     * @return a formatted string representing this Todo
      */
     @Override
     public String toDataString() {
         return "T | " + (isDone ? "1" : "0") + " | " + description;
     }
 
+    /**
+     * Returns a string representation of this Todo to be displayed to the user
+     * @return a string in the format "[T][ ] description"
+     */
     @Override
     public String toString() {
         return "[T]" + super.toString();

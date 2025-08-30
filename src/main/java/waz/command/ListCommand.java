@@ -5,17 +5,22 @@ import waz.exception.WazException;
 import waz.storage.Storage;
 import waz.ui.Ui;
 
+/**
+ * Represents a command that displays all tasks in the task list
+ */
 public class ListCommand extends Command {
-
+    /**
+     * Constructs a ListCommand with no arguments
+     */
     public ListCommand() {
         super("");
     }
 
     /**
-     * Display the list of task in the task list
+     * Execute the command to display all tasks in the task list
      * @param taskList the list of task
-     * @param ui
-     * @param storage
+     * @param ui the Ui to display the list
+     * @param storage the storage (not used in this command)
      * @throws WazException
      */
     @Override

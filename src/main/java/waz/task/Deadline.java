@@ -6,9 +6,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents a Deadline task
+ * <p>
+ *     A Deadline is a type of {@link Task} that has a description and specific date and tie by which the task should
+ *     be completed. Multiple datetime formats are accepted when creating a Deadline.
+ * </p>
+ */
 public class Deadline extends Task {
     private LocalDateTime by;
 
+    /**
+     * Supported datetime formats for parsing input
+     */
     private static final DateTimeFormatter[] TIME_FORMATS = new DateTimeFormatter[] {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"),      // e.g. 2019-10-15 1800
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"),     // e.g. 2019-10-15 18:00
@@ -17,6 +27,12 @@ public class Deadline extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm")     // e.g. Oct 15 2019 18:00
     };
 
+    /**
+     * Constructs a new Deadline with the given description and deadline string
+     * @param description the description of the task
+     * @param byString the deadline as string
+     * @throws WazException if the datetime format is invalid/not supported
+     */
     public Deadline(String description, String byString) throws WazException {
         super(description);
 
@@ -59,8 +75,8 @@ public class Deadline extends Task {
     }
 
     /**
-     * Format the waz.task.Task object into String to be saved in the file
-     * @return a formatted waz.task.Task string
+     * Format Deadline task into String to be saved in the file
+     * @return a formatted string representing this Deadline
      */
     @Override
     public String toDataString() {
@@ -68,6 +84,10 @@ public class Deadline extends Task {
                 by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
     }
 
+    /**
+     * Returns a string representation of this Deadline to be displayed to the user
+     * @return a string in the format "[D][ ] description (by: MMM dd yyyy HH:mm)"
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm")) + ")";

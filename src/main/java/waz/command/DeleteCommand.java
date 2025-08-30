@@ -6,18 +6,29 @@ import waz.exception.WazException;
 import waz.storage.Storage;
 import waz.ui.Ui;
 
+/**
+ * Represents a command that deletes a task from the task list
+ */
 public class DeleteCommand extends Command {
 
+    /**
+     * Constructs a DeleteCommand with the specified argument
+     * @param argument
+     */
     public DeleteCommand(String argument) {
         super(argument);
     }
 
     /**
-     * Delete task from the task list based on the argument (index)
+     * Executes the delete command
+     * <p>
+     *     Removes the task at the given index from the task list, updates the Ui with a confirmation message, and
+     *     save the updated task list to storage
+     * </p>
      *
      * @param taskList the list of task
-     * @param ui
-     * @param storage
+     * @param ui the Ui to show confirmation message
+     * @param storage the storage to save the updated task list
      * @throws WazException if the number is not a digit or index is out of range
      */
     @Override

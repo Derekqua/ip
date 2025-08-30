@@ -1,0 +1,8 @@
+T | 1 | buy Notebook
+D | 0 | complete tutorial   | 2020-12-12 1800
+E | 1 | gaming party   | Mon 2-8pm
+E | 0 | gaming party   | Mon 2-8pm
+D | 0 | testing  | 2019-10-15 1800
+D | 0 | tetin1231232g  | 2029-10-15 1800
+D | 0 | whatsfsfdsf | 2020-12-12 1800
+E | 0 | hehehe | p999fff-fsdfsf
