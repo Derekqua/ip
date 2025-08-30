@@ -26,7 +26,7 @@ public class AddTodoCommand extends Command {
         if (argument.trim().isEmpty()) {
             throw new WazException("A todo task needs a description!");
         }
-        Task todo = new Todo(argument);
+        Task todo = new Todo(argument.trim());
         taskList.addTask(todo);
         ui.showAddedTask(todo, taskList.size());
         storage.saveContent(taskList.getTaskList());

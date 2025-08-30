@@ -16,7 +16,7 @@ public class Waz {
 
     public Waz() {
         ui = new Ui();
-        storage = new Storage();
+        storage = new Storage("waz.txt");
         storeList = storage.readContent();
     }
 
