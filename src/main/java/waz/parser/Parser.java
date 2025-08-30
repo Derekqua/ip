@@ -33,6 +33,8 @@ public class Parser {
                 return new AddDeadlineCommand(argument);
             case "event":
                 return new AddEventCommand(argument);
+            case "find":
+                return new FindCommand(argument);
             default:
                 throw new WazException("Invalid waz.command.Command");
         }
