@@ -17,8 +17,10 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from.substring(0, from.length() - 2) +
-                "-" + to;
+        if (from.contains("pm") || from.contains("am")) {
+            from = from.substring(0, from.length() - 2);
+        }
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + "-" + to;
     }
 
     @Override
