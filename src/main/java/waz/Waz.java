@@ -25,7 +25,7 @@ public class Waz {
         Scanner scanner = new Scanner(System.in);
 
         // Greet User
-        ui.greet();
+        ui.showGreetMessage();
 
         // Loop
         while (!isExit) {
