@@ -31,10 +31,11 @@ public class AddEventCommand extends Command {
      * @param taskList the list of task
      * @param ui the Ui to show feedback to the user
      * @param storage the storage to save the updated task list
+     * @return a formatted string
      * @throws WazException if the description, /from, /to parts are missing or empty
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         String[] event = argument.split("/from", 2);
 
         if (event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
@@ -52,7 +53,7 @@ public class AddEventCommand extends Command {
 
         Task deadline = new Event(event[0].trim(), time[0].trim(), time[1].trim()); // task name, from, to
         taskList.addTask(deadline);
-        ui.showAddedTask(deadline, taskList.size());
         storage.saveContent(taskList.getTaskList());
+        return ui.showAddedTask(deadline, taskList.size());
     }
 }

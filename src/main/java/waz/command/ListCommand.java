@@ -21,10 +21,11 @@ public class ListCommand extends Command {
      * @param taskList the list of task
      * @param ui the Ui to display the list
      * @param storage the storage (not used in this command)
+     * @return a formatted string
      * @throws WazException
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        ui.showTaskList(taskList, false);
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+        return ui.showTaskList(taskList, false);
     }
 }

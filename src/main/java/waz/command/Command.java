@@ -29,9 +29,10 @@ public abstract class Command {
      * @param taskList the list of tasks
      * @param ui the Ui to interact with the user
      * @param storage the storage to persist changes
+     * @return a formatted string
      * @throws WazException if the command encounters an error such as invalid input
      */
-    public abstract void execute(TaskList taskList, Ui ui, Storage storage) throws WazException;
+    public abstract String execute(TaskList taskList, Ui ui, Storage storage) throws WazException;
 
     /**
      * Indicates whether executing this command should terminate the application

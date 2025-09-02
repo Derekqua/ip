@@ -26,87 +26,97 @@ public class Ui {
     /**
      * Prints a goodbye message and a horizontal line.
      * This method is called when the program is exiting.
+     *
+     * @return a formatted string
      */
-    public void showExitMessage() {
-        System.out.println("Bye. Hope to see you again soon!");
-        showHorizontalLine();
+    public String showExitMessage() {
+        return "Bye. Hope to see you again soon!";
     }
 
     /**
      * Prints a greeting message and a horizontal line.
      * This method is called when the program starts.
+     *
+     * @return a formatted string
      */
-    public void showGreetMessage() {
-        showHorizontalLine();
-        System.out.println("Hello! I'm waz.Waz");
-        System.out.println("What can I do for you?");
-        showHorizontalLine();
+    public String showGreetMessage() {
+        return "Hello I'm Waz.\n" + "What can I do for you?";
     }
 
     /**
      * Prints a horizontal line used to format the chatbot output.
+     *
+     * @return a formatted string
      */
-    public void showHorizontalLine() {
-        System.out.println("----------------------------------------------");
+    public String showHorizontalLine() {
+        return "----------------------------------------------\n";
     }
 
     /**
      * Prints out error message
+     *
+     * @return a formatted string
      */
-    public void showErrorMsg(WazException e) {
-        System.out.println(e.getMessage());
-        showHorizontalLine();
+    public String showErrorMsg(WazException e) {
+        return e.getMessage();
     }
 
     /**
      * Prints a confirmation message that a task has been added into the list
+     *
+     * @return a formatted string
      */
-    public void showAddedTask(Task task, int size) {
-        showHorizontalLine();
-        System.out.println("Got it. I've added this task:\n" + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
-        showHorizontalLine();
+    public String showAddedTask(Task task, int size) {
+        return "Got it. I've added this task:\n" + task
+                + "\nNow you have " + size + " tasks" + " in the list.";
     }
 
     /**
      * Prints a confirmation message that a task has been deleted from the list
+     *
+     * @return a formatted string
      */
-    public void showDeletedTask(Task task, int size) {
-        System.out.println("Noted. I've removed this task:\n" + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
-        showHorizontalLine();
+    public String showDeletedTask(Task task, int size) {
+        return "Noted. I've removed this task:\n" + task
+                + "\nNow you have " + size + " tasks in the list.";
     }
 
     /**
      * Displays all tasks currently in the task list. if task list is isMatch, display matching task message.
      * Otherwise, default task message.
+     *
+     * @return a formatted string
      */
-    public void showTaskList(TaskList taskList, boolean isMatch) {
+    public String showTaskList(TaskList taskList, boolean isMatch) {
+        String sentence = "";
         if (isMatch) {
-            System.out.println("Here are the matching tasks in your list:");
+            sentence = "Here are the matching tasks in your list:\n";
         } else {
-            System.out.println("Here are the tasks in your list:");
+            sentence = "Here are the tasks in your list:\n";
         }
 
         for (int i = 0; i < taskList.size(); i++) {
-            System.out.println((i + 1) + ". " + taskList.getTask(i));
+            sentence += (i + 1) + ". " + taskList.getTask(i) + "\n";
         }
-        showHorizontalLine();
+        return sentence;
     }
 
     /**
      * Show confirmation message that task has been unmarked
+     *
+     * @return a formatted string
      */
-    public void showUnmarkTask(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println(task);
+    public String showUnmarkTask(Task task) {
+        return "OK, I've marked this task as not done yet:\n"
+                + task + "\n";
     }
 
     /**
      * Show confirmation message that task has been marked
+     *
+     * @return a formatted string
      */
-    public void showMarkTask(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println(task);
+    public String showMarkTask(Task task) {
+        return "Nice! I've marked this task as done:\n" + task + "\n";
     }
 }
