@@ -1,7 +1,5 @@
 package waz;
 
-import java.util.Scanner;
-
 import waz.command.Command;
 import waz.exception.WazException;
 import waz.parser.Parser;
@@ -31,36 +29,17 @@ public class Waz {
         storage = new Storage("waz.txt");
         storeList = storage.readContent();
     }
-
     /**
-     * Starts teh chatbot and enters the main loop to process user commands
-     * <p>
-     *     The loop continues until the user issues an exits command.
-     *     All input is parsed and executed, any wazException is caught will be displayed to the user.
-     * </p>
+     * Generates a response for the user's chat message.
+     *
+     * @return the formatted string
      */
-    public void run() {
-        boolean isExit = false;
-        Scanner scanner = new Scanner(System.in);
-
-        // Greet User
-        ui.showGreetMessage();
-
-        // Loop
-        while (!isExit) {
-            try {
-                String input = scanner.nextLine();
-                Command command = Parser.parse(input);
-                command.execute(storeList, ui, storage);
-
-                isExit = command.isExit(); // breaks loop if waz.command.ExitCommand else false
-            } catch (WazException e) {
-                ui.showErrorMsg(e);
-            }
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            return command.execute(storeList, ui, storage);
+        } catch (WazException e) {
+            return ui.showErrorMsg(e);
         }
-
-    }
-    public static void main(String[] args) {
-        new Waz().run();
     }
 }

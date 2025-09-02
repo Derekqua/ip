@@ -26,10 +26,11 @@ public class FindCommand extends Command {
      * @param taskList the list of tasks
      * @param ui the Ui
      * @param storage the storage
+     * @return a formatted string
      * @throws WazException if the keyword is empty
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.trim().isEmpty()) {
             throw new WazException("Please provide a keyword to search");
         }
@@ -45,9 +46,9 @@ public class FindCommand extends Command {
         }
 
         if (matchingTasks.getTaskList().isEmpty()) { // No matching task found
-            System.out.println("No tasks found matching: " + keyword);
+            throw new WazException("No tasks found matching: " + keyword);
         } else { // matching task found, display list of task related to keyword
-            ui.showTaskList(matchingTasks, true);
+            return ui.showTaskList(matchingTasks, true);
         }
     }
 }

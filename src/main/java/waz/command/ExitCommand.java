@@ -23,10 +23,11 @@ public class ExitCommand extends Command {
      * @param taskList the list of task
      * @param ui the Ui to show the exit message
      * @param storage the storage
+     * @return a formatted string
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        ui.showExitMessage();
+    public String execute(TaskList taskList, Ui ui, Storage storage) {
+        return ui.showExitMessage();
     }
 
     /**

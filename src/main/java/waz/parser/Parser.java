@@ -68,7 +68,7 @@ public class Parser {
         case "find":
             return new FindCommand(argument);
         default:
-            throw new WazException("Invalid waz.command.Command");
+            throw new WazException("Invalid Command. Please try again!");
         }
     }
 }

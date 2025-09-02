@@ -29,10 +29,11 @@ public class DeleteCommand extends Command {
      * @param taskList the list of task
      * @param ui the Ui to show confirmation message
      * @param storage the storage to save the updated task list
+     * @return a formatted string
      * @throws WazException if the number is not a digit or index is out of range
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.isEmpty() || !argument.matches("\\d+")) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
@@ -44,7 +45,7 @@ public class DeleteCommand extends Command {
 
         Task task = taskList.getTask(index);
         taskList.deleteTask(task);
-        ui.showDeletedTask(task, taskList.size());
         storage.saveContent(taskList.getTaskList());
+        return ui.showDeletedTask(task, taskList.size());
     }
 }

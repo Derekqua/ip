@@ -32,16 +32,17 @@ public class AddTodoCommand extends Command {
      * @param taskList the list of task
      * @param ui the Ui to show feedback to the user
      * @param storage the storage to save the updated task list
+     * @return a formatted string
      * @throws WazException if the task description is empty
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.trim().isEmpty()) {
             throw new WazException("A todo task needs a description!");
         }
         Task todo = new Todo(argument.trim());
         taskList.addTask(todo);
-        ui.showAddedTask(todo, taskList.size());
         storage.saveContent(taskList.getTaskList());
+        return ui.showAddedTask(todo, taskList.size());
     }
 }

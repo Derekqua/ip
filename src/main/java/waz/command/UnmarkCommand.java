@@ -29,10 +29,11 @@ public class UnmarkCommand extends Command {
      * @param taskList the list of task
      * @param ui the Ui to display messages
      * @param storage the storage for saving tasks
+     * @return a formatted string
      * @throws WazException if the index is invalid or out of range
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.isEmpty() || !argument.matches("\\d+")) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
@@ -44,7 +45,7 @@ public class UnmarkCommand extends Command {
 
         Task task = taskList.getTask(index);
         task.markAsNotDone();
-        ui.showUnmarkTask(task);
         storage.saveContent(taskList.getTaskList());
+        return ui.showUnmarkTask(task);
     }
 }
