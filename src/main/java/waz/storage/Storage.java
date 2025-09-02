@@ -1,14 +1,18 @@
 package waz.storage;
 
-import waz.task.*;
-import waz.exception.WazException;
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.io.File;
 import java.util.Scanner;
+
+import waz.exception.WazException;
+import waz.task.Deadline;
+import waz.task.Event;
+import waz.task.Task;
+import waz.task.TaskList;
+import waz.task.Todo;
 
 /**
  * The {@code Storage} class handles reading and writing the task data to a persistent file.
@@ -124,7 +128,7 @@ public class Storage {
                 eventInfo[0] += "pm";
             }
 
-            Event eventTask = new Event(parts[2],eventInfo[0], eventInfo[1]);
+            Event eventTask = new Event(parts[2], eventInfo[0], eventInfo[1]);
 
             if (isMarked) {
                 eventTask.markAsDone();

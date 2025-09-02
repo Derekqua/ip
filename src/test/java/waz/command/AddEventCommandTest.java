@@ -1,5 +1,8 @@
 package waz.command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,9 +10,6 @@ import waz.exception.WazException;
 import waz.storage.Storage;
 import waz.task.TaskList;
 import waz.ui.Ui;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AddEventCommandTest {
 
@@ -37,8 +37,8 @@ public class AddEventCommandTest {
     void execute_missingDescription_throwsException() {
         Command cmd = new AddEventCommand("/from Monday /to Tuesday");
 
-        WazException ex = assertThrows(WazException.class,
-                () -> cmd.execute(taskList, ui, storage));
+        WazException ex = assertThrows(WazException.class, () ->
+                cmd.execute(taskList, ui, storage));
 
         assertEquals("A event task needs a description!", ex.getMessage());
     }
@@ -47,8 +47,8 @@ public class AddEventCommandTest {
     void execute_missingTo_throwsException() {
         Command cmd = new AddEventCommand("party /from Monday");
 
-        WazException ex = assertThrows(WazException.class,
-                () -> cmd.execute(taskList, ui, storage));
+        WazException ex = assertThrows(WazException.class, () ->
+                cmd.execute(taskList, ui, storage));
 
         assertEquals("A event task must include /from and /to!", ex.getMessage());
     }

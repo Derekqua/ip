@@ -1,11 +1,10 @@
 package waz.command;
 
-import waz.task.TaskList;
-import waz.task.Task;
-import waz.task.Event;
 import waz.exception.WazException;
 import waz.storage.Storage;
-import waz.task.Todo;
+import waz.task.Event;
+import waz.task.Task;
+import waz.task.TaskList;
 import waz.ui.Ui;
 
 /**
@@ -25,7 +24,7 @@ public class AddEventCommand extends Command {
     }
 
     /**
-     * Executes the command by creating a Event task and adding it to the task list.
+     * Executes the command by creating an Event task and adding it to the task list.
      * <p>
      *     The method also updates the Ui to show the newly added task and persists the updated list to the storage file
      * </p>>
@@ -38,7 +37,7 @@ public class AddEventCommand extends Command {
     public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         String[] event = argument.split("/from", 2);
 
-        if(event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
+        if (event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
             throw new WazException("A event task needs a description!");
         } else if (event.length < 2) {
             throw new WazException("A event task must include /from and /to!");

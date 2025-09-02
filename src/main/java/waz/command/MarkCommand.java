@@ -1,9 +1,9 @@
 package waz.command;
 
-import waz.task.TaskList;
-import waz.task.Task;
 import waz.exception.WazException;
 import waz.storage.Storage;
+import waz.task.Task;
+import waz.task.TaskList;
 import waz.ui.Ui;
 
 /**
@@ -44,7 +44,7 @@ public class MarkCommand extends Command {
             throw new WazException("OOPS! That task number doesn't exist");
         }
 
-        Task task =  taskList.getTask(index);
+        Task task = taskList.getTask(index);
         task.markAsDone();
         ui.showMarkTask(task);
         storage.saveContent(taskList.getTaskList());

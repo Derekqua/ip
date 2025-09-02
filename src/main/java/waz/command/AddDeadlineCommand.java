@@ -1,11 +1,10 @@
 package waz.command;
 
-import waz.task.Event;
-import waz.task.TaskList;
-import waz.task.Task;
-import waz.task.Deadline;
 import waz.exception.WazException;
 import waz.storage.Storage;
+import waz.task.Deadline;
+import waz.task.Task;
+import waz.task.TaskList;
 import waz.ui.Ui;
 
 /**

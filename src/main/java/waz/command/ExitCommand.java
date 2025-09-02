@@ -1,15 +1,15 @@
 package waz.command;
 
-import waz.task.TaskList;
 import waz.storage.Storage;
+import waz.task.TaskList;
 import waz.ui.Ui;
 
 /**
  * Represents a command that exits the application
- * When executed, it trigger the Ui to display the exit message.
+ * When executed, it triggers the Ui to display the exit message.
  * The {@link #isExit()}} method returns true to indicate the application should terminate
  */
-public class ExitCommand extends Command{
+public class ExitCommand extends Command {
     /**
      * Constructs an ExitCommand with no arguments
      */

@@ -1,17 +1,18 @@
 package waz.command;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import waz.task.TaskList;
-import waz.task.Todo;
-import waz.ui.Ui;
-import waz.storage.Storage;
-import waz.exception.WazException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import waz.exception.WazException;
+import waz.storage.Storage;
+import waz.task.TaskList;
+import waz.task.Todo;
+import waz.ui.Ui;
 
 class MarkCommandTest {
 
@@ -41,8 +42,8 @@ class MarkCommandTest {
     void testInvalidIndexThrowsException() {
         Command markCommand = new MarkCommand("5"); // no tasks
 
-        WazException ex = assertThrows(WazException.class,
-                () -> markCommand.execute(taskList, ui, storage));
+        WazException ex = assertThrows(WazException.class, () ->
+                markCommand.execute(taskList, ui, storage));
         assertEquals("OOPS! That task number doesn't exist", ex.getMessage());
     }
 
@@ -50,8 +51,8 @@ class MarkCommandTest {
     void testNonNumericArgumentThrowsException() {
         Command markCommand = new MarkCommand("abc");
 
-        WazException ex = assertThrows(WazException.class,
-                () -> markCommand.execute(taskList, ui, storage));
+        WazException ex = assertThrows(WazException.class, () ->
+                markCommand.execute(taskList, ui, storage));
         assertEquals("OOPS! Please provide a valid task number.", ex.getMessage());
     }
 
@@ -59,8 +60,8 @@ class MarkCommandTest {
     void testEmptyArgumentThrowsException() {
         MarkCommand cmd = new MarkCommand("");
 
-        WazException ex = assertThrows(WazException.class,
-                () -> cmd.execute(taskList, ui, storage));
+        WazException ex = assertThrows(WazException.class, () ->
+                cmd.execute(taskList, ui, storage));
         assertEquals("OOPS! Please provide a valid task number.", ex.getMessage());
     }
 }

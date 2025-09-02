@@ -1,10 +1,8 @@
 package waz.ui;
 
-import waz.task.Task;
 import waz.exception.WazException;
+import waz.task.Task;
 import waz.task.TaskList;
-
-import java.util.ArrayList;
 
 /**
  * The {@code Ui} class handles all interactions with the user.
@@ -86,7 +84,7 @@ public class Ui {
     public void showTaskList(TaskList taskList, boolean isMatch) {
         if (isMatch) {
             System.out.println("Here are the matching tasks in your list:");
-        } else{
+        } else {
             System.out.println("Here are the tasks in your list:");
         }
 

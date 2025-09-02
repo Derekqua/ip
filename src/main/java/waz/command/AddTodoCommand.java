@@ -1,10 +1,10 @@
 package waz.command;
 
-import waz.task.TaskList;
-import waz.task.Task;
-import waz.task.Todo;
 import waz.exception.WazException;
 import waz.storage.Storage;
+import waz.task.Task;
+import waz.task.TaskList;
+import waz.task.Todo;
 import waz.ui.Ui;
 
 /**

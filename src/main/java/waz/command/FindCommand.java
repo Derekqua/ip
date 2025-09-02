@@ -1,10 +1,9 @@
 package waz.command;
 
-import waz.Waz;
-import waz.task.TaskList;
-import waz.task.Task;
 import waz.exception.WazException;
 import waz.storage.Storage;
+import waz.task.Task;
+import waz.task.TaskList;
 import waz.ui.Ui;
 
 /**
@@ -12,10 +11,10 @@ import waz.ui.Ui;
  * in-sensitive.
  *
  */
-public class FindCommand extends Command{
+public class FindCommand extends Command {
     /**
      * Creates a FindCommand with the given search keyword
-     * @param argument
+     * @param argument the keyword to find
      */
     public FindCommand(String argument) {
         super(argument);
@@ -32,7 +31,7 @@ public class FindCommand extends Command{
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         if (argument.trim().isEmpty()) {
-            throw new WazException("Please provide a keyword to serach");
+            throw new WazException("Please provide a keyword to search");
         }
 
         TaskList matchingTasks = new TaskList();

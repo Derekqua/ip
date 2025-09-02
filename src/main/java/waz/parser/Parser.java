@@ -1,6 +1,16 @@
 package waz.parser;
 
-import waz.command.*;
+
+import waz.command.AddDeadlineCommand;
+import waz.command.AddEventCommand;
+import waz.command.AddTodoCommand;
+import waz.command.Command;
+import waz.command.DeleteCommand;
+import waz.command.ExitCommand;
+import waz.command.FindCommand;
+import waz.command.ListCommand;
+import waz.command.MarkCommand;
+import waz.command.UnmarkCommand;
 import waz.exception.WazException;
 
 /**
@@ -39,26 +49,26 @@ public class Parser {
         String argument = (split.length > 1) ? split[1] : "";
 
         switch (command) {
-            case "bye":
-                return new ExitCommand();
-            case "list":
-                return new ListCommand();
-            case "unmark":
-                return new UnmarkCommand(argument);
-            case "mark":
-                return new MarkCommand(argument);
-            case "delete":
-                return new DeleteCommand(argument);
-            case "todo":
-                return new AddTodoCommand(argument);
-            case "deadline":
-                return new AddDeadlineCommand(argument);
-            case "event":
-                return new AddEventCommand(argument);
-            case "find":
-                return new FindCommand(argument);
-            default:
-                throw new WazException("Invalid waz.command.Command");
+        case "bye":
+            return new ExitCommand();
+        case "list":
+            return new ListCommand();
+        case "unmark":
+            return new UnmarkCommand(argument);
+        case "mark":
+            return new MarkCommand(argument);
+        case "delete":
+            return new DeleteCommand(argument);
+        case "todo":
+            return new AddTodoCommand(argument);
+        case "deadline":
+            return new AddDeadlineCommand(argument);
+        case "event":
+            return new AddEventCommand(argument);
+        case "find":
+            return new FindCommand(argument);
+        default:
+            throw new WazException("Invalid waz.command.Command");
         }
     }
 }

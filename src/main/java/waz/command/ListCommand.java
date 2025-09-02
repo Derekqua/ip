@@ -1,8 +1,8 @@
 package waz.command;
 
-import waz.task.TaskList;
 import waz.exception.WazException;
 import waz.storage.Storage;
+import waz.task.TaskList;
 import waz.ui.Ui;
 
 /**

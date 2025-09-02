@@ -1,8 +1,8 @@
 package waz.task;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class TodoTest {
     @Test
@@ -10,7 +10,7 @@ public class TodoTest {
         Todo todo = new Todo("read book");
         String result = todo.toDataString();
 
-        assertEquals("T | 0 | read book",result);
+        assertEquals("T | 0 | read book", result);
     }
 
     @Test
@@ -19,7 +19,7 @@ public class TodoTest {
         todo.markAsDone();
         String result = todo.toDataString();
 
-        assertEquals("T | 1 | read book",result);
+        assertEquals("T | 1 | read book", result);
     }
 
     @Test
@@ -27,7 +27,7 @@ public class TodoTest {
         Todo todo = new Todo("Testing");
         String result = todo.toString();
 
-        assertEquals("[T][ ] Testing",result);
+        assertEquals("[T][ ] Testing", result);
     }
 
 }
