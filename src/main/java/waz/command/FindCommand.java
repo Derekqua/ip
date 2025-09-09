@@ -6,6 +6,9 @@ import waz.task.Task;
 import waz.task.TaskList;
 import waz.ui.Ui;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 /**
  * Represents a command to find tasks in the task list that match a given keyword. The search is also case
  * in-sensitive.
@@ -23,14 +26,14 @@ public class FindCommand extends Command {
     /**
      * Executes the find command by searching for tasks in the task list that contain the given keyword. Displays the
      * matching tasks if found, otherwise informs the user that no tasks matched.
-     * @param taskList the list of tasks
+     * @param tasks the list of tasks
      * @param ui the Ui
      * @param storage the storage
      * @return a formatted string
      * @throws WazException if the keyword is empty
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
         if (argument.trim().isEmpty()) {
             throw new WazException("Please provide a keyword to search");
         }
@@ -39,11 +42,10 @@ public class FindCommand extends Command {
         String keyword = argument.trim().toLowerCase();
 
         // Add task that match description into the list
-        for (Task task: taskList.getTaskList()) {
-            if (task.toString().toLowerCase().contains(keyword)) {
-                matchingTasks.addTask(task);
-            }
-        }
+        ArrayList <Task> filteredTasks = tasks.getTaskList().stream()
+                .filter(task -> task.toString().toLowerCase().contains(keyword))
+                .collect(Collectors.toCollection(ArrayList::new));
+        matchingTasks = new TaskList(filteredTasks);
 
         if (matchingTasks.getTaskList().isEmpty()) { // No matching task found
             throw new WazException("No tasks found matching: " + keyword);
