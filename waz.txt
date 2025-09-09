@@ -1,6 +1,0 @@
-T | 1 | buy Notebook
-D | 0 | complete tutorial         | 2020-12-12 1800
-D | 0 | testing        | 2019-10-15 1800
-D | 1 | whatsfsfdsf       | 2020-12-12 1800
-D | 0 | 2103 tp   | 2019-10-10 1900
-T | 0 | hello
