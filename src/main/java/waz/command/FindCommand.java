@@ -14,38 +14,42 @@ import waz.ui.Ui;
 public class FindCommand extends Command {
     /**
      * Creates a FindCommand with the given search keyword
-     * @param argument the keyword to find
+     * @param commandInput the keyword to find
      */
-    public FindCommand(String argument) {
-        super(argument);
+    public FindCommand(String commandInput) {
+        super(commandInput);
     }
 
     /**
      * Executes the find command by searching for tasks in the task list that contain the given keyword. Displays the
      * matching tasks if found, otherwise informs the user that no tasks matched.
-     * @param taskList the list of tasks
+     * @param tasks the list of tasks
      * @param ui the Ui
      * @param storage the storage
      * @return a formatted string
      * @throws WazException if the keyword is empty
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        if (argument.trim().isEmpty()) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
+        boolean isKeywordEmpty = commandInput.trim().isEmpty();
+
+        if (isKeywordEmpty) {
             throw new WazException("Please provide a keyword to search");
         }
 
         TaskList matchingTasks = new TaskList();
-        String keyword = argument.trim().toLowerCase();
+        String keyword = commandInput.trim().toLowerCase();
 
         // Add task that match description into the list
-        for (Task task: taskList.getTaskList()) {
-            if (task.toString().toLowerCase().contains(keyword)) {
+        for (Task task: tasks.getTaskList()) {
+            boolean isMatchKeyword = task.toString().toLowerCase().contains(keyword);
+            if (isMatchKeyword) {
                 matchingTasks.addTask(task);
             }
         }
 
-        if (matchingTasks.getTaskList().isEmpty()) { // No matching task found
+        boolean isTasksEmpty = matchingTasks.getTaskList().isEmpty();
+        if (isTasksEmpty) { // No matching task found
             throw new WazException("No tasks found matching: " + keyword);
         } else { // matching task found, display list of task related to keyword
             return ui.showTaskList(matchingTasks, true);

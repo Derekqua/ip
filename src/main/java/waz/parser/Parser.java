@@ -44,9 +44,9 @@ public class Parser {
      * @throws WazException if the input does not match any valid command
      */
     public static Command parse(String input) throws WazException {
-        String[] split = input.split(" ", 2);
-        String command = split[0];
-        String argument = (split.length > 1) ? split[1] : "";
+        String[] commandParts = input.split(" ", 2);
+        String command = commandParts[0];
+        String commandInput = (commandParts.length > 1) ? commandParts[1] : "";
 
         switch (command) {
         case "bye":
@@ -54,19 +54,19 @@ public class Parser {
         case "list":
             return new ListCommand();
         case "unmark":
-            return new UnmarkCommand(argument);
+            return new UnmarkCommand(commandInput);
         case "mark":
-            return new MarkCommand(argument);
+            return new MarkCommand(commandInput);
         case "delete":
-            return new DeleteCommand(argument);
+            return new DeleteCommand(commandInput);
         case "todo":
-            return new AddTodoCommand(argument);
+            return new AddTodoCommand(commandInput);
         case "deadline":
-            return new AddDeadlineCommand(argument);
+            return new AddDeadlineCommand(commandInput);
         case "event":
-            return new AddEventCommand(argument);
+            return new AddEventCommand(commandInput);
         case "find":
-            return new FindCommand(argument);
+            return new FindCommand(commandInput);
         default:
             throw new WazException("Invalid Command. Please try again!");
         }

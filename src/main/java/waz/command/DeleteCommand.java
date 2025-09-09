@@ -13,10 +13,10 @@ public class DeleteCommand extends Command {
 
     /**
      * Constructs a DeleteCommand with the specified argument
-     * @param argument
+     * @param commandInput
      */
-    public DeleteCommand(String argument) {
-        super(argument);
+    public DeleteCommand(String commandInput) {
+        super(commandInput);
     }
 
     /**
@@ -26,26 +26,35 @@ public class DeleteCommand extends Command {
      *     save the updated task list to storage
      * </p>
      *
-     * @param taskList the list of task
+     * @param tasks the list of task
      * @param ui the Ui to show confirmation message
      * @param storage the storage to save the updated task list
      * @return a formatted string
      * @throws WazException if the number is not a digit or index is out of range
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        if (argument.isEmpty() || !argument.matches("\\d+")) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
+        boolean isInputEmpty = commandInput.isEmpty();
+        boolean isNotDigit = !commandInput.matches("\\d+");
+        boolean isInvalidTaskNumber = isInputEmpty || isNotDigit;
+
+        if (isInvalidTaskNumber) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
 
-        int index = Integer.parseInt(argument) - 1;
-        if (index < 0 || index >= taskList.size()) {
+        int index = Integer.parseInt(commandInput) - 1;
+
+        boolean isNegativeNumber = index < 0;
+        boolean isOutOfRange = index >= tasks.size();
+        boolean isIndexOutOfRange = isNegativeNumber || isOutOfRange;
+
+        if (isIndexOutOfRange) {
             throw new WazException("OOPS! That task number doesn't exist");
         }
 
-        Task task = taskList.getTask(index);
-        taskList.deleteTask(task);
-        storage.saveContent(taskList.getTaskList());
-        return ui.showDeletedTask(task, taskList.size());
+        Task deleteTask = tasks.getTask(index);
+        tasks.deleteTask(deleteTask);
+        storage.saveContent(tasks.getTaskList());
+        return ui.showDeletedTask(deleteTask, tasks.size());
     }
 }

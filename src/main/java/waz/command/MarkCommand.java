@@ -18,36 +18,45 @@ public class MarkCommand extends Command {
 
     /**
      * Constructs an UnmarkCommand with the given argument
-     * @param argument the index of the task to be unmarked, as a string
+     * @param commandInput the index of the task to be unmarked, as a string
      */
-    public MarkCommand(String argument) {
-        super(argument);
+    public MarkCommand(String commandInput) {
+        super(commandInput);
     }
 
 
     /**
      * Executes the command to mark a task in the task list
      *
-     * @param taskList the list of task
+     * @param tasks the list of task
      * @param ui the Ui to display messages
      * @param storage the storage for saving tasks
      * @return a formatted string
      * @throws WazException if the index is invalid or out of range
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        if (argument.isEmpty() || !argument.matches("\\d+")) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
+        boolean isInputEmpty = commandInput.isEmpty();
+        boolean isNotDigit = !commandInput.matches("\\d+");
+        boolean isInvalidTaskNumber = isInputEmpty || isNotDigit;
+
+        if (isInvalidTaskNumber) {
             throw new WazException("OOPS! Please provide a valid task number.");
         }
 
-        int index = Integer.parseInt(argument) - 1;
-        if (index < 0 || index >= taskList.size()) {
+        int index = Integer.parseInt(commandInput) - 1;
+
+        boolean isNegativeNumber = index < 0;
+        boolean isOutOfRange = index >= tasks.size();
+        boolean isIndexOutOfRange = isNegativeNumber || isOutOfRange;
+
+        if (isIndexOutOfRange) {
             throw new WazException("OOPS! That task number doesn't exist");
         }
 
-        Task task = taskList.getTask(index);
-        task.markAsDone();
-        storage.saveContent(taskList.getTaskList());
-        return ui.showMarkTask(task);
+        Task markTask = tasks.getTask(index);
+        markTask.markAsDone();
+        storage.saveContent(tasks.getTaskList());
+        return ui.showMarkTask(markTask);
     }
 }

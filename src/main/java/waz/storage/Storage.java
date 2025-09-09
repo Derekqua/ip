@@ -36,13 +36,13 @@ public class Storage {
      * @return a {@link TaskList} containing all valid tasks read from the file
      */
     public TaskList readContent() {
-        TaskList taskList = new TaskList();
+        TaskList tasks = new TaskList();
         File file = new File(fileName);
 
         // if file is empty return empty list for now
         if (!file.exists()) {
             System.out.println("File does not exist");
-            return taskList;
+            return tasks;
         }
 
         // Read the file line by line
@@ -51,8 +51,8 @@ public class Storage {
                 String line = scanner.nextLine();
 
                 try {
-                    Task task = lineToTask(line); // Convert each line into a waz.task.Task object
-                    taskList.addTask(task);
+                    Task task = convertLineToTask(line); // Convert each line into a waz.task.Task object
+                    tasks.addTask(task);
                 } catch (WazException e) { // Corrupted lines
                     System.out.println((e.getMessage()));
                 }
@@ -62,7 +62,7 @@ public class Storage {
         }
 
         System.out.println("Read file content successfully");
-        return taskList;
+        return tasks;
     }
 
     /**
@@ -81,54 +81,57 @@ public class Storage {
      * @return the corresponding w{@link Task} object (Todo, Deadline, or Event)
      * @throws WazException if the line is corrupted or any unknown task type
      */
-    private Task lineToTask(String line) throws WazException {
-        String[] parts = line.split("\\| ");
+    private Task convertLineToTask(String line) throws WazException {
+        String[] commandParts = line.split("\\| ");
 
-        if (parts.length < 3) {
+        if (commandParts.length < 3) {
             throw new WazException("Line is corrupted. Failed to create task.");
         }
 
-        String taskType = parts[0].trim();
-        boolean isMarked = parts[1].trim().equals("1");
+        String taskType = commandParts[0].trim();
+        String description = commandParts[2];
+        boolean isMarked = commandParts[1].trim().equals("1");
 
         switch (taskType) {
         case "T":
-            Todo todoTask = new Todo(parts[2]);
+            Todo todoTask = new Todo(description);
             if (isMarked) {
                 todoTask.markAsDone();
             }
 
             return todoTask;
         case "D":
-            if (parts.length < 4) {
+            if (commandParts.length < 4) {
                 throw new WazException("Line is corrupted. Failed to create deadline task.");
             }
-
-            Deadline deadlineTask = new Deadline(parts[2], parts[3]);
+            String deadline = commandParts[3];
+            Deadline deadlineTask = new Deadline(description, deadline);
             if (isMarked) {
                 deadlineTask.markAsDone();
             }
 
             return deadlineTask;
         case "E":
-            if (parts.length < 4) {
+            if (commandParts.length < 4) {
                 throw new WazException("Line is corrupted. Failed to create event task.");
             }
 
-            String[] eventInfo = parts[3].split("-", 2);
+            String[] time = commandParts[3].split("-", 2);
 
-            if (eventInfo.length < 2) {
+            if (time.length < 2) {
                 throw new WazException("Line is corrupted. Failed to create event task expected from-to.");
             }
 
             // Add "am" or "pm" to /from
-            if (eventInfo[1].contains("am")) {
-                eventInfo[0] += "am";
+            String startTime = time[0];
+            String endTime = time[1];
+            if (endTime.contains("am")) {
+                startTime += "am";
             } else {
-                eventInfo[0] += "pm";
+                startTime += "pm";
             }
 
-            Event eventTask = new Event(parts[2], eventInfo[0], eventInfo[1]);
+            Event eventTask = new Event(description, startTime, endTime);
 
             if (isMarked) {
                 eventTask.markAsDone();
