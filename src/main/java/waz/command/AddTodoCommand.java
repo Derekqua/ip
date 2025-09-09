@@ -18,10 +18,10 @@ public class AddTodoCommand extends Command {
 
     /**
      * Constructs an AddTodoCommand with the given task description
-     * @param argument the description of the Todo task
+     * @param commandInput the description of the Todo task
      */
-    public AddTodoCommand(String argument) {
-        super(argument);
+    public AddTodoCommand(String commandInput) {
+        super(commandInput);
     }
 
     /**
@@ -29,21 +29,25 @@ public class AddTodoCommand extends Command {
      * <p>
      *     The method also updates the Ui to show the newly added task and persists the updated list to the storage file
      * </p>>
-     * @param taskList the list of task
+     * @param tasks the list of task
      * @param ui the Ui to show feedback to the user
      * @param storage the storage to save the updated task list
      * @return a formatted string
      * @throws WazException if the task description is empty
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        assert !argument.trim().isEmpty() : "Description should not be empty";
-        if (argument.trim().isEmpty()) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
+        boolean isDescriptionEmpty = commandInput.trim().isEmpty();
+        assert !isDescriptionEmpty : "Description should not be empty";
+
+        if (isDescriptionEmpty) {
             throw new WazException("A todo task needs a description!");
         }
-        Task todo = new Todo(argument.trim());
-        taskList.addTask(todo);
-        storage.saveContent(taskList.getTaskList());
-        return ui.showAddedTask(todo, taskList.size());
+
+        String description = commandInput.trim();
+        Task todoTask = new Todo(description);
+        tasks.addTask(todoTask);
+        storage.saveContent(tasks.getTaskList());
+        return ui.showAddedTask(todoTask, tasks.size());
     }
 }

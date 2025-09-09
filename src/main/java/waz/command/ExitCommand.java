@@ -20,13 +20,13 @@ public class ExitCommand extends Command {
     /**
      * Executes the exit command
      * Display goodbye message using the {@link Ui} class
-     * @param taskList the list of task
+     * @param tasks the list of task
      * @param ui the Ui to show the exit message
      * @param storage the storage
      * @return a formatted string
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
         return ui.showExitMessage();
     }
 

@@ -17,10 +17,10 @@ import waz.ui.Ui;
 public class AddDeadlineCommand extends Command {
     /**
      * Constructs an AddDeadlineCommand with the given task description, deadline
-     * @param argument the description of the Deadline task
+     * @param commandInput the description of the Deadline task
      */
-    public AddDeadlineCommand(String argument) {
-        super(argument);
+    public AddDeadlineCommand(String commandInput) {
+        super(commandInput);
     }
 
     /**
@@ -28,28 +28,34 @@ public class AddDeadlineCommand extends Command {
      * <p>
      *     The method also updates the Ui to show the newly added task and persists the updated list to the storage file
      * </p>>
-     * @param taskList the list of task
+     * @param tasks the list of task
      * @param ui the Ui to show feedback to the user
      * @param storage the storage to save the updated task list
      * @return a formatted string
      * @throws WazException if the description, /by parts are missing or empty
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        String[] parts = argument.split("/by", 2);
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
+        String[] commandParts = commandInput.split("/by", 2);
 
-        assert !parts[0].trim().isEmpty() : "Description should not be empty";
-        assert parts.length == 2 && !parts[1].trim().isEmpty() : "Deadline should not be empty";
+        boolean isDescriptionEmpty = commandParts[0].trim().isEmpty();
+        boolean isDeadlineMissing = commandParts.length < 2 || commandParts[1].trim().isEmpty();;
 
-        if (parts[0].trim().isEmpty()) { // Check if description is empty
+        assert !isDescriptionEmpty : "Description should not be empty";
+        assert commandParts.length == 2 && !commandParts[1].trim().isEmpty() : "Deadline should not be empty";
+
+        if (isDescriptionEmpty) { // Check if description is empty
             throw new WazException("A deadline task needs a description!");
-        } else if (parts.length < 2 || parts[1].trim().isEmpty()) { // Check if /by is missing or deadline is empty
+        } else if (isDeadlineMissing) { // Check if /by is missing or deadline is empty
             throw new WazException("A deadline task needs a deadline!");
         }
 
-        Task deadline = new Deadline(parts[0].trim(), parts[1].trim()); // task name, deadline by...
-        taskList.addTask(deadline);
-        storage.saveContent(taskList.getTaskList());
-        return ui.showAddedTask(deadline, taskList.size());
+        String description = commandParts[0].trim();
+        String deadline = commandParts[1].trim();
+
+        Task deadlineTask = new Deadline(description, deadline); // task name, deadline by...
+        tasks.addTask(deadlineTask);
+        storage.saveContent(tasks.getTaskList());
+        return ui.showAddedTask(deadlineTask, tasks.size());
     }
 }

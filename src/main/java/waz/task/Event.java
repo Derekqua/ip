@@ -8,19 +8,19 @@ package waz.task;
  */
 public class Event extends Task {
 
-    protected String from;
-    protected String to;
+    protected String startTime;
+    protected String endTime;
 
     /**
-     * Constructs a new Event with the given description, from, to
+     * Constructs a new Event with the given description, startTime, endTime
      * @param description
-     * @param from
-     * @param to
+     * @param startTime
+     * @param endTime
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, String startTime, String endTime) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     /**
@@ -29,10 +29,16 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        if (from.contains("pm") || from.contains("am")) {
-            from = from.substring(0, from.length() - 2);
+        String formattedStartTime = startTime.toLowerCase();
+        boolean isAmOrPm = formattedStartTime.contains("pm") || formattedStartTime.contains("am");
+
+        if (isAmOrPm) { // remove am or pm from the start time
+            formattedStartTime = formattedStartTime.substring(0, formattedStartTime.length() - 2);
         }
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + "-" + to;
+
+        String formattedDataString = "E | " + (isDone ? "1" : "0") + " | " + description + " | " + formattedStartTime
+                + "-" + endTime;
+        return formattedDataString;
     }
 
     /**
@@ -41,6 +47,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        String formattedString = "[E]" + super.toString() + " (from: " + startTime + " to: " + endTime + ")";
+        return formattedString;
     }
 }
