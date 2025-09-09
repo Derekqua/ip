@@ -21,6 +21,7 @@ public abstract class Command {
      * @param commandInput the argument string for the command
      */
     public Command(String commandInput) {
+        assert commandInput != null : "Argument must not be null";
         this.commandInput = commandInput;
     }
 

@@ -47,6 +47,7 @@ public class DeleteCommand extends Command {
         boolean isNegativeNumber = index < 0;
         boolean isOutOfRange = index >= tasks.size();
         boolean isIndexOutOfRange = isNegativeNumber || isOutOfRange;
+        assert index >= 0 && index <= tasks.size() : "Task number is out of range";
 
         if (isIndexOutOfRange) {
             throw new WazException("OOPS! That task number doesn't exist");

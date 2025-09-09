@@ -41,6 +41,9 @@ public class AddDeadlineCommand extends Command {
         boolean isDescriptionEmpty = commandParts[0].trim().isEmpty();
         boolean isDeadlineMissing = commandParts.length < 2 || commandParts[1].trim().isEmpty();;
 
+        assert !isDescriptionEmpty : "Description should not be empty";
+        assert commandParts.length == 2 && !commandParts[1].trim().isEmpty() : "Deadline should not be empty";
+
         if (isDescriptionEmpty) { // Check if description is empty
             throw new WazException("A deadline task needs a description!");
         } else if (isDeadlineMissing) { // Check if /by is missing or deadline is empty

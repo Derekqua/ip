@@ -47,6 +47,7 @@ public class UnmarkCommand extends Command {
         boolean isNegativeNumber = index < 0;
         boolean isOutOfRange = index >= tasks.size();
         boolean isIndexOutOfRange = isNegativeNumber || isOutOfRange;
+        assert !isIndexOutOfRange : "Invalid task number";
 
         if (isIndexOutOfRange) {
             throw new WazException("OOPS! That task number doesn't exist");

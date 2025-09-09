@@ -51,6 +51,8 @@ public class AddEventCommand extends Command {
         boolean isStartTimeEmpty = time[0].trim().isEmpty();
         boolean isTimeEmpty = time.length < 2 || isStartTimeEmpty || time[1].trim().isEmpty(); // Check start & end time
 
+        assert time[0].trim().isEmpty() && time[1].trim().isEmpty() : "/from and /to must be " + "specified";
+
         // Check if /to is missing or description empty
         if (isTimeEmpty) {
             throw new WazException("A event task must include /from and /to!");
