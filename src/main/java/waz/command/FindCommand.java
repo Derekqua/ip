@@ -31,6 +31,7 @@ public class FindCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+        assert !argument.trim().isEmpty() : "Keyword to search is empty";
         if (argument.trim().isEmpty()) {
             throw new WazException("Please provide a keyword to search");
         }
@@ -38,6 +39,7 @@ public class FindCommand extends Command {
         TaskList matchingTasks = new TaskList();
         String keyword = argument.trim().toLowerCase();
 
+        assert !taskList.getTaskList().isEmpty() : "Tasklist should not be empty";
         // Add task that match description into the list
         for (Task task: taskList.getTaskList()) {
             if (task.toString().toLowerCase().contains(keyword)) {

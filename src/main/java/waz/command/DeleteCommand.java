@@ -39,6 +39,7 @@ public class DeleteCommand extends Command {
         }
 
         int index = Integer.parseInt(argument) - 1;
+        assert index >= 0 && index <= taskList.size() : "Task number is out of range";
         if (index < 0 || index >= taskList.size()) {
             throw new WazException("OOPS! That task number doesn't exist");
         }

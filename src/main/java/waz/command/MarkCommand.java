@@ -41,6 +41,7 @@ public class MarkCommand extends Command {
         }
 
         int index = Integer.parseInt(argument) - 1;
+        assert index >= 0 : "Invalid task number";
         if (index < 0 || index >= taskList.size()) {
             throw new WazException("OOPS! That task number doesn't exist");
         }
