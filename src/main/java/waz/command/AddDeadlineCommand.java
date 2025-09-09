@@ -38,6 +38,9 @@ public class AddDeadlineCommand extends Command {
     public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
         String[] parts = argument.split("/by", 2);
 
+        assert !parts[0].trim().isEmpty() : "Description should not be empty";
+        assert parts.length == 2 && !parts[1].trim().isEmpty() : "Deadline should not be empty";
+
         if (parts[0].trim().isEmpty()) { // Check if description is empty
             throw new WazException("A deadline task needs a description!");
         } else if (parts.length < 2 || parts[1].trim().isEmpty()) { // Check if /by is missing or deadline is empty

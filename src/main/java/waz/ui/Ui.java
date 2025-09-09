@@ -67,6 +67,8 @@ public class Ui {
      * @return a formatted string
      */
     public String showAddedTask(Task task, int size) {
+        assert task != null : "Task must not be null";
+        assert size >= 0 : "Size must not be non-negative";
         return "Got it. I've added this task:\n" + task
                 + "\nNow you have " + size + " tasks" + " in the list.";
     }

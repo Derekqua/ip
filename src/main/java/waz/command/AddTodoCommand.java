@@ -37,6 +37,7 @@ public class AddTodoCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
+        assert !argument.trim().isEmpty() : "Description should not be empty";
         if (argument.trim().isEmpty()) {
             throw new WazException("A todo task needs a description!");
         }
