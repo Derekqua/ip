@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public class FindCommand extends Command {
     /**
      * Creates a FindCommand with the given search keyword
-     * @param argument the keyword to find
+     * @param commandInput the keyword to find
      */
-    public FindCommand(String argument) {
-        super(argument);
+    public FindCommand(String commandInput) {
+        super(commandInput);
     }
 
     /**
@@ -34,20 +34,25 @@ public class FindCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
-        if (argument.trim().isEmpty()) {
+        boolean isKeywordEmpty = commandInput.trim().isEmpty();
+        assert !isKeywordEmpty : "Keyword to search is empty";
+
+        if (isKeywordEmpty) {
             throw new WazException("Please provide a keyword to search");
         }
 
         TaskList matchingTasks = new TaskList();
-        String keyword = argument.trim().toLowerCase();
+        String keyword = commandInput.trim().toLowerCase();
 
+        assert !tasks.getTaskList().isEmpty() : "Tasklist should not be empty";
         // Add task that match description into the list
         ArrayList <Task> filteredTasks = tasks.getTaskList().stream()
                 .filter(task -> task.toString().toLowerCase().contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new));
         matchingTasks = new TaskList(filteredTasks);
 
-        if (matchingTasks.getTaskList().isEmpty()) { // No matching task found
+        boolean isTasksEmpty = matchingTasks.getTaskList().isEmpty();
+        if (isTasksEmpty) { // No matching task found
             throw new WazException("No tasks found matching: " + keyword);
         } else { // matching task found, display list of task related to keyword
             return ui.showTaskList(matchingTasks, true);

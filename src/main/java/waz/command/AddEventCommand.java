@@ -17,10 +17,10 @@ import waz.ui.Ui;
 public class AddEventCommand extends Command {
     /**
      * Constructs an AddEventCommand with the given task description, start time, end time
-     * @param argument the description of the Event task
+     * @param commandInput the description of the Event task
      */
-    public AddEventCommand(String argument) {
-        super(argument);
+    public AddEventCommand(String commandInput) {
+        super(commandInput);
     }
 
     /**
@@ -28,32 +28,43 @@ public class AddEventCommand extends Command {
      * <p>
      *     The method also updates the Ui to show the newly added task and persists the updated list to the storage file
      * </p>>
-     * @param taskList the list of task
+     * @param tasks the list of task
      * @param ui the Ui to show feedback to the user
      * @param storage the storage to save the updated task list
      * @return a formatted string
      * @throws WazException if the description, /from, /to parts are missing or empty
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, Storage storage) throws WazException {
-        String[] event = argument.split("/from", 2);
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws WazException {
+        String[] commandParts = commandInput.split("/from", 2);
 
-        if (event[0].trim().isEmpty()) { // Check if /from is missing or description is empty
+        boolean isDescriptionEmpty = commandParts[0].trim().isEmpty();
+        boolean isFromEmpty = commandParts.length < 2;
+
+        if (isDescriptionEmpty) { // Check if /from is missing or description is empty
             throw new WazException("A event task needs a description!");
-        } else if (event.length < 2) {
+        } else if (isFromEmpty) {
             throw new WazException("A event task must include /from and /to!");
         }
 
-        String[] time = event[1].split("/to", 2); // from and to
+        String[] time = commandParts[1].split("/to", 2); // from and to
+        boolean isStartTimeEmpty = time[0].trim().isEmpty();
+        boolean isTimeEmpty = time.length < 2 || isStartTimeEmpty || time[1].trim().isEmpty(); // Check start & end time
+
+        assert time[0].trim().isEmpty() && time[1].trim().isEmpty() : "/from and /to must be " + "specified";
 
         // Check if /to is missing or description empty
-        if (time.length < 2 || time[0].trim().isEmpty() || time[1].trim().isEmpty()) {
+        if (isTimeEmpty) {
             throw new WazException("A event task must include /from and /to!");
         }
 
-        Task deadline = new Event(event[0].trim(), time[0].trim(), time[1].trim()); // task name, from, to
-        taskList.addTask(deadline);
-        storage.saveContent(taskList.getTaskList());
-        return ui.showAddedTask(deadline, taskList.size());
+        String description = commandParts[0].trim();
+        String startTime = time[0].trim();
+        String endTime = time[1].trim();
+
+        Task eventTask = new Event(description, startTime, endTime);
+        tasks.addTask(eventTask);
+        storage.saveContent(tasks.getTaskList());
+        return ui.showAddedTask(eventTask, tasks.size());
     }
 }

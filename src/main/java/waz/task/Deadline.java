@@ -25,24 +25,26 @@ public class Deadline extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm") // e.g. Oct 15 2019 18:00
     };
 
-    private LocalDateTime by;
+    private LocalDateTime deadline;
 
     /**
      * Constructs a new Deadline with the given description and deadline string
      * @param description the description of the task
-     * @param byString the deadline as string
+     * @param deadlineString the deadline as string
      * @throws WazException if the datetime format is invalid/not supported
      */
-    public Deadline(String description, String byString) throws WazException {
+    public Deadline(String description, String deadlineString) throws WazException {
         super(description);
 
-        LocalDateTime time = parseDateTime(byString);
-        if (time == null) { // Invalid date/time format
+        LocalDateTime time = parseDateTime(deadlineString);
+        boolean isInvalidTimeFormat = time == null;
+
+        if (isInvalidTimeFormat) { // Invalid date/time format
             throw new WazException("Invalid date/time format. Please try again. \n"
                     + "Below is the accepted format: \n 2019-10-15 1800 \n 2019-10-15 18:00 \n 15/10/2019 1800 \n "
                     + "15/10/2019 18:00 \n Oct 15 2019 18:00");
         }
-        this.by = time;
+        this.deadline = time;
     }
 
     /**
@@ -60,13 +62,14 @@ public class Deadline extends Task {
      *    <li>"MMM dd yyyy HH:mm" (e.g., "Oct 15 2019 18:00")</li>
      *  </ul>
      *
-     * @param byString the dateTime string to  be parsed
+     * @param deadlineString the dateTime string to  be parsed
      * @return LocalDateTime if sucessful, else null if format is not supported
      */
-    private LocalDateTime parseDateTime(String byString) {
+    private LocalDateTime parseDateTime(String deadlineString) {
         for (DateTimeFormatter formatter: TIME_FORMATS) {
             try {
-                return LocalDateTime.parse(byString, formatter);
+                LocalDateTime time = LocalDateTime.parse(deadlineString, formatter);
+                return time;
             } catch (DateTimeParseException ignore) {
                 // Try next format
             }
@@ -80,8 +83,9 @@ public class Deadline extends Task {
      */
     @Override
     public String toDataString() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | "
-                + by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        String formattedDateTime = deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        String formattedDataString = "D | " + (isDone ? "1" : "0") + " | " + description + " | " + formattedDateTime;
+        return formattedDataString;
     }
 
     /**
@@ -90,6 +94,8 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm")) + ")";
+        String formattedDateTime = deadline.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
+        String formattedString = "[D]" + super.toString() + " (by: " + formattedDateTime + ")";
+        return formattedString;
     }
 }

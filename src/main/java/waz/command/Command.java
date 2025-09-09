@@ -13,26 +13,27 @@ import waz.ui.Ui;
  * </p>
  */
 public abstract class Command {
-    protected String argument;
+    protected String commandInput;
 
     /**
      * Constructs a Command with the given argument
      *
-     * @param argument the argument string for the command
+     * @param commandInput the argument string for the command
      */
-    public Command(String argument) {
-        this.argument = argument;
+    public Command(String commandInput) {
+        assert commandInput != null : "Argument must not be null";
+        this.commandInput = commandInput;
     }
 
     /**
      * Executes the command with access to the task list, Ui, storage
-     * @param taskList the list of tasks
+     * @param tasks the list of tasks
      * @param ui the Ui to interact with the user
      * @param storage the storage to persist changes
      * @return a formatted string
      * @throws WazException if the command encounters an error such as invalid input
      */
-    public abstract String execute(TaskList taskList, Ui ui, Storage storage) throws WazException;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws WazException;
 
     /**
      * Indicates whether executing this command should terminate the application
