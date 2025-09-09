@@ -30,7 +30,7 @@ public class AddEventCommandTest {
         addEventCommand.execute(taskList, ui, storage);
 
         assertEquals(1, taskList.size());
-        assertEquals("[E][ ] party (from: 2pm to: 6pm)", taskList.getTaskList().get(0).toString());
+        assertEquals("[E][ ] party (from: 2 to: 6pm)", taskList.getTaskList().get(0).toString());
     }
 
     @Test
