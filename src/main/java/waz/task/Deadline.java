@@ -84,7 +84,8 @@ public class Deadline extends Task {
     @Override
     public String toDataString() {
         String formattedDateTime = deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-        String formattedDataString = "D | " + (isDone ? "1" : "0") + " | " + description + " | " + formattedDateTime;
+        String formattedDataString = "D | " + (isDone ? "1" : "0") + " | " + description + " | " + formattedDateTime
+                + " | " + getTagsString();
         return formattedDataString;
     }
 
@@ -95,7 +96,7 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         String formattedDateTime = deadline.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
-        String formattedString = "[D]" + super.toString() + " (by: " + formattedDateTime + ")";
+        String formattedString = "[D]" + super.toString() + " (by: " + formattedDateTime + ")" + getTagsString();
         return formattedString;
     }
 }

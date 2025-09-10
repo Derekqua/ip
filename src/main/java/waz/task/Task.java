@@ -1,5 +1,11 @@
 package waz.task;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import waz.tag.Tag;
+
 /**
  * Represents a generic task
  * <p>
@@ -12,6 +18,7 @@ package waz.task;
 public abstract class Task {
     protected String description;
     protected boolean isDone;
+    private final List<Tag> tags = new ArrayList<>();
 
     /**
      * Constructs a new Task with the given description
@@ -60,4 +67,49 @@ public abstract class Task {
         String formattedString = "[" + getStatusIcon() + "] " + description;
         return formattedString;
     }
+    /**
+     * Returns a formatted string representation of the tags for this task.
+     * <p>
+     * If the task has no tags, an empty string is returned.
+     * Otherwise, each tag is converted to its string form and concatenated,
+     * separated by a space, with a leading space added before the first tag.
+     * </p>
+     *
+     * @return a string representing all tags of the task, formatted for display
+     */
+    public String getTagString() {
+        return tags.isEmpty() ? "" : " " + tags.stream()
+                        .map(Tag::toString)
+                        .collect(Collectors.joining(" "));
+    }
+
+    public String getTagsString() {
+        String tagString = tags.isEmpty() ? "" : " " + tags.stream()
+                        .map(Tag::toString)
+                        .collect(Collectors.joining(" "));
+        return tagString;
+    }
+    /**
+     * Add a tag to task
+     * @param tag the tag object to add
+     */
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+    /**
+     * add a list of tags to task
+     * @param newTags the list of new tags to add to task object
+     */
+    public void addTags(List<Tag> newTags) {
+        tags.addAll(newTags);
+    }
+    /**
+     * Checks if the task already has a tag with the same name.
+     * @param tag the tag to check for
+     * @return true if a tag with the same name exists, false otherwise
+     */
+    public boolean hasTag(Tag tag) {
+        return tags.contains(tag);
+    }
+
 }

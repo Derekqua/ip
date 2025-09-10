@@ -37,7 +37,7 @@ public class Event extends Task {
         }
 
         String formattedDataString = "E | " + (isDone ? "1" : "0") + " | " + description + " | " + formattedStartTime
-                + "-" + endTime;
+                + "-" + endTime + " | " + getTagsString();
         return formattedDataString;
     }
 
@@ -47,7 +47,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        String formattedString = "[E]" + super.toString() + " (from: " + startTime + " to: " + endTime + ")";
+        String formattedString = "[E]" + super.toString() + " (from: " + startTime + " to: " + endTime + ")"
+            + getTagsString();
         return formattedString;
     }
 }

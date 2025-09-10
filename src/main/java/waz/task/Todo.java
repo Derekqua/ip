@@ -23,7 +23,7 @@ public class Todo extends Task {
      */
     @Override
     public String toDataString() {
-        String formattedDataString = "T | " + (isDone ? "1" : "0") + " | " + description;
+        String formattedDataString = "T | " + (isDone ? "1" : "0") + " | " + description + " | " + getTagsString();
         return formattedDataString;
     }
 
@@ -33,7 +33,7 @@ public class Todo extends Task {
      */
     @Override
     public String toString() {
-        String formattedString = "[T]" + super.toString();
+        String formattedString = "[T]" + super.toString() + getTagsString();
         return formattedString;
     }
 }

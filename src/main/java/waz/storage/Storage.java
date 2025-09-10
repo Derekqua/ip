@@ -5,9 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import waz.exception.WazException;
+import waz.tag.Tag;
 import waz.task.Deadline;
 import waz.task.Event;
 import waz.task.Task;
@@ -83,6 +86,8 @@ public class Storage {
      */
     private Task convertLineToTask(String line) throws WazException {
         String[] commandParts = line.split("\\| ");
+        List<Tag> tags;
+        String tagString;
 
         if (commandParts.length < 3) {
             throw new WazException("Line is corrupted. Failed to create task.");
@@ -95,6 +100,10 @@ public class Storage {
         switch (taskType) {
         case "T":
             Todo todoTask = new Todo(description);
+            tagString = commandParts.length > 3 ? commandParts[3] : "";
+
+            tags = convertToTags(tagString);
+            todoTask.addTags(tags);
             if (isMarked) {
                 todoTask.markAsDone();
             }
@@ -106,6 +115,10 @@ public class Storage {
             }
             String deadline = commandParts[3];
             Deadline deadlineTask = new Deadline(description, deadline);
+
+            tagString = commandParts.length > 4 ? commandParts[4] : "";
+            tags = convertToTags(tagString);
+            deadlineTask.addTags(tags);
             if (isMarked) {
                 deadlineTask.markAsDone();
             }
@@ -133,6 +146,10 @@ public class Storage {
 
             Event eventTask = new Event(description, startTime, endTime);
 
+            tagString = commandParts.length > 4 ? commandParts[4] : "";
+            tags = convertToTags(tagString);
+            eventTask.addTags(tags);
+
             if (isMarked) {
                 eventTask.markAsDone();
             }
@@ -142,6 +159,29 @@ public class Storage {
             throw new WazException("Line is corrupted. Unknown task type.");
         }
 
+    }
+
+    /**
+     * Converts a string of space-separated tag names into a list of {@link Tag} objects.
+     * <p>
+     * Each tag in the input string is trimmed and normalized in the {@link Tag} constructor.
+     * If the input string is empty or contains only whitespace, an empty list is returned.
+     * </p>
+     *
+     * @param tagString a string containing space-separated tag names (e.g., "#fun #urgent")
+     * @return a {@link List} of {@link Tag} objects corresponding to the input string
+     */
+    public List<Tag> convertToTags(String tagString) {
+        List<Tag> tags = new ArrayList<>();
+        boolean isTagsEmpty = tagString.trim().isEmpty();
+        if (!isTagsEmpty) {
+            tags = Arrays.stream(tagString.split("#"))
+                    .skip(1)
+                    .map(Tag::new) // convert each string to a Tag object
+                    .toList();
+        }
+        System.out.println(tags + "helloo");
+        return tags;
     }
 
     /**

@@ -1,6 +1,5 @@
 package waz.parser;
 
-
 import waz.command.AddDeadlineCommand;
 import waz.command.AddEventCommand;
 import waz.command.AddTodoCommand;
@@ -10,6 +9,7 @@ import waz.command.ExitCommand;
 import waz.command.FindCommand;
 import waz.command.ListCommand;
 import waz.command.MarkCommand;
+import waz.command.TagCommand;
 import waz.command.UnmarkCommand;
 import waz.exception.WazException;
 
@@ -67,6 +67,8 @@ public class Parser {
             return new AddEventCommand(commandInput);
         case "find":
             return new FindCommand(commandInput);
+        case "tag":
+            return new TagCommand(commandInput);
         default:
             throw new WazException("Invalid Command. Please try again!");
         }

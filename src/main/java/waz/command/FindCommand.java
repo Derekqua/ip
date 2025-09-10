@@ -1,13 +1,13 @@
 package waz.command;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import waz.exception.WazException;
 import waz.storage.Storage;
 import waz.task.Task;
 import waz.task.TaskList;
 import waz.ui.Ui;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Represents a command to find tasks in the task list that match a given keyword. The search is also case

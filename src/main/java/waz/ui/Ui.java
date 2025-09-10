@@ -121,4 +121,21 @@ public class Ui {
     public String showMarkTask(Task task) {
         return "Nice! I've marked this task as done:\n" + task + "\n";
     }
+    /**
+     * Show confirmation message that a tag has been added to the task
+     * @param taskIndex the index of the task in the task list
+     * @param tagName the name of the tag object
+     * @return a formatted string
+     */
+    public String showAddTag(int taskIndex, String tagName) {
+        return "Added tag #" + tagName + " to task: " + taskIndex;
+    }
+    /**
+     * Show confirmation message that a tag already exist in the task
+     * @param tagName the name of the tag object
+     * @return a formatted string
+     */
+    public String showTagExist(String tagName) {
+        return "Task already has tag #" + tagName;
+    }
 }
