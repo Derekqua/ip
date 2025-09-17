@@ -146,4 +146,5 @@ Every change made is automatically saved into your disk.
 | Unmark Task         | `unmark 1`                                                     |
 | Delete Task         | `delete 1`                                                     |
 | Find Tasks          | `find math`                                                    |
+
 Current version - **v0.2**
