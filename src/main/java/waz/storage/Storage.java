@@ -85,7 +85,7 @@ public class Storage {
      * @throws WazException if the line is corrupted or any unknown task type
      */
     private Task convertLineToTask(String line) throws WazException {
-        String[] commandParts = line.split("\\| ");
+        String[] commandParts = line.split(" \\|");
         List<Tag> tags;
         String tagString;
 
@@ -99,11 +99,14 @@ public class Storage {
 
         switch (taskType) {
         case "T":
+            // Create Todo
             Todo todoTask = new Todo(description);
             tagString = commandParts.length > 3 ? commandParts[3] : "";
 
+            // Handle Tags
             tags = convertToTags(tagString);
             todoTask.addTags(tags);
+
             if (isMarked) {
                 todoTask.markAsDone();
             }
@@ -113,12 +116,17 @@ public class Storage {
             if (commandParts.length < 4) {
                 throw new WazException("Line is corrupted. Failed to create deadline task.");
             }
-            String deadline = commandParts[3];
+
+            String deadline = commandParts[3].trim();
+
+            // Create Deadline
             Deadline deadlineTask = new Deadline(description, deadline);
 
+            // Handle Tags
             tagString = commandParts.length > 4 ? commandParts[4] : "";
             tags = convertToTags(tagString);
             deadlineTask.addTags(tags);
+
             if (isMarked) {
                 deadlineTask.markAsDone();
             }
@@ -129,23 +137,19 @@ public class Storage {
                 throw new WazException("Line is corrupted. Failed to create event task.");
             }
 
-            String[] time = commandParts[3].split("-", 2);
+            String[] time = commandParts[3].split("~", 2);
 
             if (time.length < 2) {
                 throw new WazException("Line is corrupted. Failed to create event task expected from-to.");
             }
 
-            // Add "am" or "pm" to /from
-            String startTime = time[0];
-            String endTime = time[1];
-            if (endTime.contains("am")) {
-                startTime += "am";
-            } else {
-                startTime += "pm";
-            }
+            String startTime = time[0].trim();
+            String endTime = time[1].trim();
 
+            // Create Event
             Event eventTask = new Event(description, startTime, endTime);
 
+            // Handle Tags
             tagString = commandParts.length > 4 ? commandParts[4] : "";
             tags = convertToTags(tagString);
             eventTask.addTags(tags);
@@ -180,7 +184,6 @@ public class Storage {
                     .map(Tag::new) // convert each string to a Tag object
                     .toList();
         }
-        System.out.println(tags + "helloo");
         return tags;
     }
 
