@@ -22,6 +22,9 @@ import waz.task.TaskList;
  * </p>
  */
 public class Ui {
+    private static final String HORIZONTAL_LINE = "----------------------------------------------\n";
+    private static final String GREETING = "Hello I'm Waz.\n" + "What can I do for you?";
+    private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
 
     /**
      * Prints a goodbye message and a horizontal line.
@@ -30,7 +33,7 @@ public class Ui {
      * @return a formatted string
      */
     public String showExitMessage() {
-        return "Bye. Hope to see you again soon!";
+        return EXIT_MESSAGE;
     }
 
     /**
@@ -40,7 +43,7 @@ public class Ui {
      * @return a formatted string
      */
     public String showGreetMessage() {
-        return "Hello I'm Waz.\n" + "What can I do for you?";
+        return GREETING;
     }
 
     /**
@@ -49,7 +52,7 @@ public class Ui {
      * @return a formatted string
      */
     public String showHorizontalLine() {
-        return "----------------------------------------------\n";
+        return HORIZONTAL_LINE;
     }
 
     /**
@@ -58,7 +61,7 @@ public class Ui {
      * @return a formatted string
      */
     public String showErrorMsg(WazException e) {
-        return e.getMessage();
+        return "OOPS!!! " + e.getMessage();
     }
 
     /**
@@ -69,8 +72,7 @@ public class Ui {
     public String showAddedTask(Task task, int size) {
         assert task != null : "Task must not be null";
         assert size >= 0 : "Size must not be non-negative";
-        return "Got it. I've added this task:\n" + task
-                + "\nNow you have " + size + " tasks" + " in the list.";
+        return "Got it. I've added this task:\n" + task + "\nNow you have " + size + " tasks" + " in the list.";
     }
 
     /**
@@ -79,8 +81,7 @@ public class Ui {
      * @return a formatted string
      */
     public String showDeletedTask(Task task, int size) {
-        return "Noted. I've removed this task:\n" + task
-                + "\nNow you have " + size + " tasks in the list.";
+        return "Noted. I've removed this task:\n" + task + "\nNow you have " + size + " tasks in the list.";
     }
 
     /**
@@ -90,17 +91,19 @@ public class Ui {
      * @return a formatted string
      */
     public String showTaskList(TaskList taskList, boolean isMatch) {
-        String sentence = "";
+        StringBuilder sb = new StringBuilder();
+
         if (isMatch) {
-            sentence = "Here are the matching tasks in your list:\n";
+            sb.append("Here are the matching tasks in your list:\n");
         } else {
-            sentence = "Here are the tasks in your list:\n";
+            sb.append("Here are the tasks in your list:\n");
         }
 
         for (int i = 0; i < taskList.size(); i++) {
-            sentence += (i + 1) + ". " + taskList.getTask(i) + "\n";
+            String taskLine = (i + 1) + ". " + taskList.getTask(i) + "\n";
+            sb.append(taskLine);
         }
-        return sentence;
+        return sb.toString();
     }
 
     /**
@@ -109,8 +112,7 @@ public class Ui {
      * @return a formatted string
      */
     public String showUnmarkTask(Task task) {
-        return "OK, I've marked this task as not done yet:\n"
-                + task + "\n";
+        return "OK, I've marked this task as not done yet:\n" + task + "\n";
     }
 
     /**
@@ -121,8 +123,10 @@ public class Ui {
     public String showMarkTask(Task task) {
         return "Nice! I've marked this task as done:\n" + task + "\n";
     }
+
     /**
      * Show confirmation message that a tag has been added to the task
+     *
      * @param taskIndex the index of the task in the task list
      * @param tagName the name of the tag object
      * @return a formatted string
@@ -130,8 +134,10 @@ public class Ui {
     public String showAddTag(int taskIndex, String tagName) {
         return "Added tag #" + tagName + " to task: " + taskIndex;
     }
+
     /**
      * Show confirmation message that a tag already exist in the task
+     *
      * @param tagName the name of the tag object
      * @return a formatted string
      */
