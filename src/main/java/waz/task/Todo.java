@@ -33,7 +33,7 @@ public class Todo extends Task {
      */
     @Override
     public String toString() {
-        String formattedString = "[T]" + super.toString() + getTagsString();
+        String formattedString = "[T]" + super.toString() + " " + getTagsString();
         return formattedString;
     }
 }

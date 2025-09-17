@@ -55,6 +55,8 @@ public class MarkCommand extends Command {
             throw new WazException("OOPS! That task number doesn't exist");
         }
 
+        assert !isIndexOutOfRange : "Invalid task number";
+
         Task markTask = tasks.getTask(index);
         markTask.markAsDone();
         storage.saveContent(tasks.getTaskList());

@@ -77,14 +77,8 @@ public abstract class Task {
      *
      * @return a string representing all tags of the task, formatted for display
      */
-    public String getTagString() {
-        return tags.isEmpty() ? "" : " " + tags.stream()
-                        .map(Tag::toString)
-                        .collect(Collectors.joining(" "));
-    }
-
     public String getTagsString() {
-        String tagString = tags.isEmpty() ? "" : " " + tags.stream()
+        String tagString = tags.isEmpty() ? "" : tags.stream()
                         .map(Tag::toString)
                         .collect(Collectors.joining(" "));
         return tagString;

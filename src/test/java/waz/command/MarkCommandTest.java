@@ -35,16 +35,17 @@ class MarkCommandTest {
 
         markCommand.execute(taskList, ui, storage);
 
-        assertEquals("[T][X] Read book", taskList.getTaskList().get(0).toString());
+        assertEquals("[T][X] Read book ", taskList.getTaskList().get(0).toString());
     }
 
     @Test
     void testInvalidIndexThrowsException() {
         Command markCommand = new MarkCommand("5"); // no tasks
 
-        WazException ex = assertThrows(WazException.class, () ->
+        AssertionError ex = assertThrows(AssertionError.class, () ->
                 markCommand.execute(taskList, ui, storage));
-        assertEquals("OOPS! That task number doesn't exist", ex.getMessage());
+
+        assertEquals("Invalid task number", ex.getMessage());
     }
 
     @Test
@@ -53,6 +54,7 @@ class MarkCommandTest {
 
         WazException ex = assertThrows(WazException.class, () ->
                 markCommand.execute(taskList, ui, storage));
+
         assertEquals("OOPS! Please provide a valid task number.", ex.getMessage());
     }
 
@@ -62,6 +64,7 @@ class MarkCommandTest {
 
         WazException ex = assertThrows(WazException.class, () ->
                 cmd.execute(taskList, ui, storage));
+
         assertEquals("OOPS! Please provide a valid task number.", ex.getMessage());
     }
 }
