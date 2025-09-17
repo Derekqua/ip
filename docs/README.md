@@ -19,6 +19,7 @@ It's simple, fast and ~~stressful~~ STRESS-FREE to use!
 - Mark and unmark tasks as done ✅
 - Delete tasks 🗑️
 - Find task by keyword 🔎
+
 ---
 ## 🚀 Commands
 All commands are case insensitive. Index refers to the task number shown in the displayed list.
