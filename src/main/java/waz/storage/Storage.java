@@ -61,7 +61,7 @@ public class Storage {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println((e.getMessage()));
+            System.err.println((e.getMessage()));
         }
 
         System.out.println("Read file content successfully");
@@ -88,30 +88,23 @@ public class Storage {
         String[] commandParts = line.split(" \\|");
         List<Tag> tags;
         String tagString;
+        Task task;
 
         if (commandParts.length < 3) {
             throw new WazException("Line is corrupted. Failed to create task.");
         }
 
         String taskType = commandParts[0].trim();
-        String description = commandParts[2];
+        String description = commandParts[2].trim();
         boolean isMarked = commandParts[1].trim().equals("1");
 
         switch (taskType) {
         case "T":
-            // Create Todo
-            Todo todoTask = new Todo(description);
-            tagString = commandParts.length > 3 ? commandParts[3] : "";
-
             // Handle Tags
+            tagString = commandParts.length > 3 ? commandParts[3] : "";
             tags = convertToTags(tagString);
-            todoTask.addTags(tags);
-
-            if (isMarked) {
-                todoTask.markAsDone();
-            }
-
-            return todoTask;
+            task = createTodo(description, tags, isMarked);
+            break;
         case "D":
             if (commandParts.length < 4) {
                 throw new WazException("Line is corrupted. Failed to create deadline task.");
@@ -119,19 +112,11 @@ public class Storage {
 
             String deadline = commandParts[3].trim();
 
-            // Create Deadline
-            Deadline deadlineTask = new Deadline(description, deadline);
-
             // Handle Tags
             tagString = commandParts.length > 4 ? commandParts[4] : "";
             tags = convertToTags(tagString);
-            deadlineTask.addTags(tags);
-
-            if (isMarked) {
-                deadlineTask.markAsDone();
-            }
-
-            return deadlineTask;
+            task = createDeadline(description, deadline, tags, isMarked);
+            break;
         case "E":
             if (commandParts.length < 4) {
                 throw new WazException("Line is corrupted. Failed to create event task.");
@@ -146,24 +131,87 @@ public class Storage {
             String startTime = time[0].trim();
             String endTime = time[1].trim();
 
-            // Create Event
-            Event eventTask = new Event(description, startTime, endTime);
-
             // Handle Tags
             tagString = commandParts.length > 4 ? commandParts[4] : "";
             tags = convertToTags(tagString);
-            eventTask.addTags(tags);
-
-            if (isMarked) {
-                eventTask.markAsDone();
-            }
-
-            return eventTask;
+            task = createEvent(description, startTime, endTime, tags, isMarked);
+            break;
         default:
             throw new WazException("Line is corrupted. Unknown task type.");
         }
 
+        return task;
     }
+
+    /**
+     * Creates a Todo task with optional tags and completion status.
+     *
+     * @param description the task description
+     * @param tags the list of tags associated with this task
+     * @param isMarked true if the task should be marked as done
+     * @return a Todo task
+     */
+    private Todo createTodo(String description, List<Tag> tags, boolean isMarked) {
+        // Create Todo
+        Todo todoTask = new Todo(description);
+        todoTask.addTags(tags);
+
+        if (isMarked) {
+            todoTask.markAsDone();
+        }
+        return todoTask;
+    }
+
+    /**
+     * Creates a Deadline task with optional tags and completion status.
+     *
+     * @param description the task description
+     * @param deadline the deadline string in an accepted datetime format
+     * @param tags the list of tags associated with this task
+     * @param isMarked true if the task should be marked as done
+     * @return a Deadline task
+     * @throws WazException if the deadline string is invalid or cannot be parsed
+     */
+    private Deadline createDeadline(String description, String deadline, List<Tag> tags, boolean isMarked)
+            throws WazException {
+        // Create Deadline
+        Deadline deadlineTask = new Deadline(description, deadline);
+        deadlineTask.addTags(tags);
+
+        if (isMarked) {
+            deadlineTask.markAsDone();
+        }
+        return deadlineTask;
+    }
+
+    /**
+     * Creates an Event task with start and end times, optional tags, and completion status.
+     *
+     * <p>
+     * Validates that both startTime and endTime are provided and parses them into
+     * the correct datetime format if necessary.
+     * </p>
+     *
+     * @param description the task description
+     * @param startTime the start time string (e.g., "/from" field)
+     * @param endTime the end time string (e.g., "/to" field)
+     * @param tags the list of tags associated with this task
+     * @param isMarked true if the task should be marked as done
+     * @return an Event task
+     * @throws WazException if startTime or endTime is missing, invalid, or endTime is before startTime
+     */
+    private Event createEvent(String description, String startTime, String endTime, List<Tag> tags, boolean isMarked)
+            throws WazException {
+        // Create Event
+        Event eventTask = new Event(description, startTime, endTime);
+        eventTask.addTags(tags);
+
+        if (isMarked) {
+            eventTask.markAsDone();
+        }
+        return eventTask;
+    }
+
 
     /**
      * Converts a string of space-separated tag names into a list of {@link Tag} objects.
@@ -189,10 +237,10 @@ public class Storage {
 
     /**
      * Save the current list of tasks to a file
-     *
+     * <p>
      * Each task in the list is converted to a string representation using {@link Task#toDataString()}
      * The file is overwritten everytime the task list is edited to ensure the state of the state of the task list.
-     *
+     * <p>
      * Example of file content:
      * <p>
      *     <ul>
