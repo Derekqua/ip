@@ -45,7 +45,7 @@ public class Parser {
      */
     public static Command parse(String input) throws WazException {
         String[] commandParts = input.split(" ", 2);
-        String command = commandParts[0];
+        String command = commandParts[0].toLowerCase();
         String commandInput = (commandParts.length > 1) ? commandParts[1] : "";
 
         switch (command) {
